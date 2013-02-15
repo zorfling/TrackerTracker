@@ -35,6 +35,7 @@ app.get('/iterations', routes.hasToken, routes.getIterations);
 app.get('/stories', routes.hasToken, routes.getStories);
 
 app.post('/addStory', routes.hasToken, routes.addStory);
+app.post('/moveStory', routes.hasToken, routes.moveStory);
 app.post('/updateStory', routes.hasToken, routes.updateStory);
 app.post('/addStoryComment', routes.hasToken, routes.addStoryComment);
 

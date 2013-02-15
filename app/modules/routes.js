@@ -56,3 +56,10 @@ exports.addStoryComment = function (req, res) {
     res.json(true);
   });
 };
+
+exports.moveStory = function (req, res) {
+  var moveData = { target: req.body.target, move: req.body.placement };
+  pivotal.moveStory(req.body.projectID, req.body.storyID, moveData, function (err, results) {
+    res.json(true);
+  });
+};
