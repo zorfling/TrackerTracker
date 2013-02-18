@@ -1077,6 +1077,11 @@ input.textfield.autocomplete {
   margin: 8px 0 12px 0;
 }
 
+.column-note a.action {
+  font: bold 11px/27px Helvetica, sans-serif;
+  padding: 0 12px;
+}
+
 /* Epics */
 
 #columns .column-labels .column-bucket {
