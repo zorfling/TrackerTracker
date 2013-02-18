@@ -33,7 +33,7 @@ TT.Model = (function () {
   }
 
   function find(collection, query, returnIndex) {
-    if (TT.Utils.isObject(query)) {
+    if (TT.Utils.isObject(query) && !TT.Utils.isFunction(query)) {
       query = matcherObjectToFunction(query);
     }
 
@@ -48,10 +48,10 @@ TT.Model = (function () {
   }
 
   function update(collection, matcherFn, updateFn) {
-    if (TT.Utils.isObject(matcherFn)) {
+    if (TT.Utils.isObject(matcherFn) && !TT.Utils.isFunction(matcherFn)) {
       matcherFn = matcherObjectToFunction(matcherFn);
     }
-    if (TT.Utils.isObject(updateFn)) {
+    if (TT.Utils.isObject(updateFn) && !TT.Utils.isFunction(updateFn)) {
       updateFn = updateObjectToFunction(updateFn);
     }
 
@@ -148,7 +148,7 @@ TT.Model = (function () {
     };
 
     self.remove = function (query) {
-      if (TT.Utils.isObject(query)) {
+      if (TT.Utils.isObject(query) && !TT.Utils.isFunction(query)) {
         query = matcherObjectToFunction(query);
       }
       self.each(function (index, obj) {
