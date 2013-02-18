@@ -94,7 +94,6 @@ TT.Importer = (function () {
           pivotalProject: TT.Model.Project.get({ name: pivotalProject }).id
         },
         callback: function (data) {
-          window.console.log('/importProject response', data);
           startTrackingImport(data.id);
           pub.pollForResults(data.id);
         }
@@ -165,7 +164,6 @@ TT.Importer = (function () {
   pub.init = function () {
     var activeImports = TT.Utils.localStorage('activeImports');
     $.each(activeImports ? JSON.parse(activeImports) : {}, function (id, val) {
-      window.console.log(id, val);
       if (id) {
         pub.pollForResults(id);
       }

@@ -23,7 +23,7 @@ TT.Ajax = (function () {
   };
 
   pub.timeout = function () {
-    TT.View.message('Giving up waiting for response from server.', { type: 'error' });
+    TT.View.message('Server is taking a while to respond.', { type: 'wait' });
     pub.end();
   };
 
