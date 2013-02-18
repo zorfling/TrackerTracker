@@ -2,7 +2,7 @@
 
 Multi-project Scrum UI for [Pivotal Tracker](http://www.pivotaltracker.com).
 
-![Screenshot](http://i.imgur.com/01xTYQx.png)
+![Screenshot](http://i.imgur.com/Lmylpyh.png)
 
 ## Features
 
@@ -18,7 +18,7 @@ Multi-project Scrum UI for [Pivotal Tracker](http://www.pivotaltracker.com).
 * It's pretty easy to write custom columns and filters
 * Forecasting charts
 
-![Screenshot](http://i.imgur.com/ien0tEx.png)
+![Screenshot](http://i.imgur.com/FK00z8H.png)
 
 ## Who Is This For?
 
