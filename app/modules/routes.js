@@ -1,10 +1,16 @@
+var fs = require('fs');
 var pivotal = require('pivotal');
 
 var TWO_YEARS = 2 * 365 * 24 * 60 * 60 * 1000;
 var PIVOTAL_TOKEN_COOKIE = 'pivotalToken';
 
 exports.index = function (req, res) {
-  res.render('index', { timestamp: new Date().getTime() });
+  fs.readFile('./fingerprint', function (err, data) {
+    if (err) {
+      console.log('Fingerprint file not found, using current timestamp instead.');
+    }
+    res.render('index', { timestamp: data || new Date().getTime() });
+  });
 };
 
 exports.hasToken = function (req, res, next) {

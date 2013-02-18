@@ -17,6 +17,15 @@ module.exports = function(grunt) {
         'app/public/js/lib/hogan.js'
       ]
     },
+    fingerprint: {
+      assets: {
+        files: [
+          'app/public/js/bundle/*',
+          'app/public/css/bundle/*'
+        ],
+        filename: 'fingerprint'
+      }
+    },
     hogan: {
       compile: {
         namespace: 'HoganTemplates',
@@ -84,7 +93,9 @@ module.exports = function(grunt) {
     grunt.file.write(data.dest, output);
   });
 
+  grunt.loadNpmTasks('grunt-fingerprint');
+
   // Default task.
-  grunt.registerTask('default', 'lint hogan concat min');
+  grunt.registerTask('default', 'lint hogan concat min fingerprint');
 
 };
