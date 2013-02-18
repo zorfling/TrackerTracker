@@ -6,7 +6,9 @@ TT.Charts = (function () {
   var currentVelocity = 5;
 
   pub.compileProjectionChartData = function (project, velocity) {
-    var stories = TT.Model.Story.find({ project_id: project.id, current_state: 'unstarted' });
+    var stories = TT.Model.Story.find(function (story) {
+      return story.project_id === project.id && story.current_state !== 'unscheduled';
+    });
 
     var output = {
       projectName: project.name,
@@ -35,6 +37,7 @@ TT.Charts = (function () {
           estimate: story.estimate,
           project_name: project.name,
           story_type: story.story_type,
+          current_state: story.current_state,
           owner: story.owned_by || 'nobody',
           requester: story.requested_by,
           labels: story.labels
@@ -104,21 +107,30 @@ TT.Charts = (function () {
     var last_column = 0;
     var iteration_counter = 0;
     $.each(data.stories, function (index, story) {
+      var marker, markerTarget;
+
+      if (index === 0) {
+        marker = TT.View.render('iterationMarker', { date: pub.getIterationDate(iteration, 0) });
+        markerTarget = $chart.find('tr.row-0 td.cell-' + story.column);
+        $(marker).appendTo(markerTarget);
+      }
+
       if (last_column !== story.column) {
         last_column = story.column;
         points += parseInt(story.estimate || 0, 10);
         if (points >= data.velocity) {
           points -= data.velocity;
-          var marker = TT.View.render('iterationMarker', {
+          marker = TT.View.render('iterationMarker', {
             date: pub.getIterationDate(iteration, data.weeks + iteration_counter)
           });
           iteration_counter += data.iteration_length;
-          var markerTarget = $chart.find('tr.row-0 td.cell-' + story.column);
+          markerTarget = $chart.find('tr.row-0 td.cell-' + story.column);
           $(marker).appendTo(markerTarget);
           $chart.find('td.cell-' + story.column).addClass('iteration');
         }
       }
 
+      $chart.find('td.cell-' + story.column).addClass(story.current_state + '-state');
       if (story.story_type === 'release') {
         $chart.find('td.cell-' + story.column).addClass('release-column');
       }

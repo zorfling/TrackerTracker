@@ -228,6 +228,10 @@ body.ajaxRunning #logo h1 {
 
 /* Dialog */
 
+body.has-modal-dialog {
+  overflow: auto;
+}
+
 .modal-dialog-overlay {
   background: rgba(0, 0, 0, 0.7);
   cursor: pointer;
@@ -261,8 +265,9 @@ body.ajaxRunning #logo h1 {
 }
 
 .modal-dialog-fullscreen .container {
-  height: 500px;
+  height: 100%;
   margin: 0;
+  min-height: 500px;
   width: 500px;
 }
 
@@ -1236,18 +1241,14 @@ input.textfield.autocomplete {
 
 /* Charts */
 
-.projection-chart {
-  overflow-y: auto;
-}
-
 .projection-chart .data-container {
   overflow-x: auto;
-  margin-left: 210px;
+  margin-left: 190px;
 }
 
 .projection-chart .data-container table {
   border: 1px solid #666;
-  margin: 30px 0 20px 0;
+  margin: 30px 20px 20px;
 }
 
 .projection-chart h2 {
@@ -1284,11 +1285,15 @@ input.textfield.autocomplete {
 }
 
 .projection-chart table.labels {
+  background: #fff;
+  border: 1px solid #fff;
   position: absolute;
+  z-index: 1002;
 }
 
 .projection-chart table.labels td {
   display: block;
+  padding-right: 8px;
   overflow: hidden;
   text-align: right;
   text-overflow: ellipsis;
@@ -1305,7 +1310,7 @@ input.textfield.autocomplete {
 }
 
 .projection-chart .data-container tr:hover td {
-  background: rgba(220, 220, 0, 0.45);
+  background: rgba(220, 220, 0, 0.45) !important;
 }
 
 .projection-chart td.cell {
@@ -1314,12 +1319,47 @@ input.textfield.autocomplete {
   padding: 0 1px 1px 0;
 }
 
-.projection-chart tr.row-0 td.iteration {
+.projection-chart tr.row-0 td.iteration,
+.projection-chart tr.row-0 td.cell-1 {
   position: relative;
 }
 
 .projection-chart td.iteration {
   border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.projection-chart tr.odd td.started-state {
+  background: #faf9e1;
+}
+
+.projection-chart tr.even td.started-state {
+  background: #f1efb1;
+}
+
+.projection-chart tr.odd td.finished-state,
+.projection-chart tr.odd td.rejected-state {
+  background: #ffebd5;
+}
+
+.projection-chart tr.even td.finished-state,
+.projection-chart tr.even td.rejected-state {
+  background: #ffd9b0;
+}
+
+.projection-chart tr.odd td.delivered-state {
+  background: #f0fafa;
+}
+
+.projection-chart tr.even td.delivered-state {
+  background: #bfeceb;
+}
+
+.projection-chart tr.odd td.accepted-state {
+  background: #dffdcc;
+}
+
+.projection-chart tr.even td.accepted-state {
+  background: #c4f3a3;
 }
 
 .projection-chart tr.odd td.release-column {
@@ -1372,6 +1412,11 @@ input.textfield.autocomplete {
   position: absolute;
   right: -20px;
   top: -31px;
+}
+
+.projection-chart td.cell-1 .iteration-marker {
+  left: -20px;
+  right: 0;
 }
 
 .projection-chart .iteration-marker-date {
