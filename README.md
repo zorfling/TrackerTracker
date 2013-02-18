@@ -14,7 +14,7 @@ Multi-project Scrum UI for [Pivotal Tracker](http://www.pivotaltracker.com).
 * Columns can be rearranged
 * Labels, searches, column order, selected projects all survive browser restart
 * Enter your Pivotal API token and user name and off you go
-* Most actions are supported: update story descriptions, add notes, drag them to different columns to update their status
+* Most actions are supported: update story descriptions, add notes, drag them to different columns to update their status and priority
 * It's pretty easy to write custom columns and filters
 * Forecasting charts
 

@@ -32,8 +32,8 @@ TT.DragAndDrop = (function () {
       return true;
     }
 
-    var story = TT.Model.Story.get({ id: $(ui.item).data('id') });
     var data = {};
+    var story = TT.Model.Story.get({ id: $(ui.item).data('id') });
 
     dragInFn = pub.getDragFn(ui.item, 'in');
 
@@ -46,13 +46,16 @@ TT.DragAndDrop = (function () {
 
     if (dragOutFn || dragInFn) {
       TT.Model.Story.update({ id: story.id }, data);
-      TT.Model.Story.serverSave(story, data);
+      TT.Model.Story.serverSave(story, data, function () {
+        TT.Model.Story.changePriority(story);
+      });
     }
   };
 
-  pub.onStoryStop = function () {
-    if (dragOutFn || dragInFn) {
-      TT.View.drawStories();
+  pub.onStoryStop = function (event, ui) {
+    if (columnOut === columnIn) {
+      var story = TT.Model.Story.get({ id: $(ui.item).data('id') });
+      TT.Model.Story.changePriority(story);
     }
     dragOutFn = dragInFn = null;
   };

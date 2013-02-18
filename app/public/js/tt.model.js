@@ -470,6 +470,72 @@ TT.Model = (function () {
     });
   };
 
+  pub.Story.changePriority = function (story) {
+    var $element = $('.story-' + story.id);
+    if ($element.length === 0) {
+      return false;
+    }
+
+    var placement = 'after';
+    var target = $element.prevAll('.story[data-project-id="' + story.project_id + '"]')[0];
+
+    if (!target) {
+      placement = 'before';
+      target = $element.nextAll('.story[data-project-id="' + story.project_id + '"]')[0];
+    }
+
+    if (!target) {
+      // Crawl left columns
+      // We need to clone this array, otherwise splice/reverse operate on the referenced columns
+      var columns = TT.Model.Column.get().slice(0);
+      var columnName = $element.closest('.column').data('name');
+      var columnIndex = TT.Model.Column.index({ name: columnName });
+      var rightColumns = columns.splice(columnIndex);
+
+      $.each(columns.reverse(), function (index, column) {
+        if (!target) {
+          target = $('.column[data-name="' + column.name + '"] .story[data-project-id="' + story.project_id + '"]')[0];
+        }
+      });
+
+      if (!target) {
+        // Crawl right columns.
+        placement = 'after';
+        $.each(rightColumns, function (index, column) {
+          if (!target) {
+            target = $('.column[data-name="' + column.name + '"] .story[data-project-id="' + story.project_id + '"]').not('[data-id="' + story.id + '"]')[0];
+          }
+        });
+      }
+    }
+
+    if (!target) {
+      return false;
+    }
+
+    var targetID = $(target).data('id');
+
+    TT.Ajax.post('/moveStory', {
+      data: {
+        projectID: story.project_id,
+        storyID: story.id,
+        target: targetID,
+        placement: placement
+      },
+      callback: function () {
+        var oldIndex = pub.Story.index({ id: story.id });
+        var newIndex = pub.Story.index({ id: parseInt(targetID, 10) });
+        if (placement === 'before') {
+          newIndex -= 1;
+        } else if (oldIndex > newIndex) {
+          newIndex += 1;
+        }
+        pub.Story.move(oldIndex, newIndex);
+        TT.View.drawStories();
+      }
+    });
+  };
+
   pub.User = pub.Model('User');
 
   pub.User.onBeforeAdd = function (user) {
