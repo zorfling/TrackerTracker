@@ -286,16 +286,16 @@ describe "UI interactions", ->
           expect(visibleStoriesWithProjectID(id)).not.toBe 0
 
   describe "Labels Column", ->
-    tagName = "used_by_one_story"
+    tagName = 'used_by_one_story'
     story = null
 
     say "I open the labels column", ->
       beforeEach ->
         $('#columnList .column-selector[data-name="Labels"]').click()
 
-      it "should display the active and inactive labels", ->
-        expect(labelDisplayedAsActive('unused_label')).toBe false
-        expect(labelDisplayedAsActive(tagName)).toBe true
+      it "should display the active labels only", ->
+        expect(labelDisplayedInColumn('unused_label')).toBe false
+        expect(labelDisplayedInColumn(tagName)).toBe true
 
       also "I remove a label from a story, making the label unused", ->
         beforeEach ->
@@ -303,13 +303,13 @@ describe "UI interactions", ->
           story.find('.toggle-arrow').click()
           story.find('.details .tag:contains("' + tagName + '") .delete').click()
 
-        it "should display the label as inactive in the labels column", ->
-          expect(labelDisplayedAsActive(tagName)).toBe false
+        it "should no longer display the label in the column", ->
+          expect(labelDisplayedInColumn(tagName)).toBe false
 
         xalso "I add the label back to the story, making the label used", ->
           beforeEach ->
             story.find('.details .labels.textfield').click()
             $('#autocomplete .item:contains("' + tagName + '")').click()
 
-          it "should display the label as active in the labels column", ->
-            expect(labelDisplayedAsActive(tagName)).toBe true
+          it "should display the label in the labels column", ->
+            expect(labelDisplayedInColumn(tagName)).toBe true

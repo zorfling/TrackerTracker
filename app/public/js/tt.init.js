@@ -17,13 +17,13 @@ TT.Init = (function () {
       active: false,
       sortable: false,
       template: function () {
-        var labels = TT.Utils.sortByProperty(TT.Model.Label.get(), 'name');
+        var labels = TT.Utils.sortByProperty(TT.Model.Label.find({ active: true }), 'name');
         return TT.View.render('epics', { labels: labels });
       },
       afterTemplateRender: function () {
         $('.epic').each(function () {
           var w = $(this).data('stories') + $(this).data('points');
-          $(this).width(w);
+          $(this).width(w * 2);
         });
       }
     });

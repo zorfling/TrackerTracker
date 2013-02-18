@@ -325,6 +325,10 @@ function visibleStoriesWithoutOwner(name) {
   return count;
 }
 
+function labelDisplayedInColumn(label) {
+  return $('#columns .column-labels .tag:contains("' + label + '")').length > 0;
+}
+
 function labelDisplayedAsActive(label) {
   return !$('#columns .column-labels .tag:contains("' + label + '")').closest('.row').hasClass('inactive');
 }
