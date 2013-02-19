@@ -332,7 +332,7 @@ TT.Init = (function () {
     }
   };
 
-  pub.requestProjectsAndIterations = function () {
+  pub.requestProjectsAndIterations = function (forceRefresh) {
     function useProjectData(projects) {
       TT.Ajax.end();
       pub.addProjects(projects);
@@ -344,12 +344,13 @@ TT.Init = (function () {
     TT.Ajax.start();
     var projects = TT.Utils.localStorage('projects');
 
-    if (projects) {
+    if (projects && forceRefresh !== true) {
       useProjectData(JSON.parse(projects).project);
     } else {
       $.ajax({
         url: '/projects',
         success: function (projects) {
+          projects = pub.reconcileProjectOrder(projects);
           TT.Utils.localStorage('projects', projects);
           useProjectData(projects.project);
         }
@@ -416,6 +417,17 @@ TT.Init = (function () {
       }
       normalized_iteration++;
     });
+  };
+
+  pub.reconcileProjectOrder = function (projects) {
+    var existing = TT.Utils.localStorage('projects');
+    if (!existing) {
+      return projects;
+    }
+    existing = JSON.parse(existing);
+    projects.project = TT.Utils.reconcileArrayOrder('id', existing.project, projects.project);
+
+    return projects;
   };
 
   pub.setUpdateInterval = function () {

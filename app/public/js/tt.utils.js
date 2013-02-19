@@ -78,7 +78,37 @@ TT.Utils = (function () {
       }
     }
     arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+
     return arr;
+  };
+
+  pub.reconcileArrayOrder = function (key, oldArray, newArray) {
+    var shift = true;
+    var newIndex;
+    while (shift) {
+      shift = false;
+      for (newIndex = 0; newIndex < newArray.length; newIndex++) {
+        var oldIndex = pub.getIndexByKey(oldArray, key, newArray[newIndex][key]);
+        if (!shift && oldIndex !== -1 && oldIndex !== newIndex) {
+          newArray = pub.arrayMove(newArray, oldIndex, newIndex);
+          shift = true;
+          break;
+        }
+      }
+    }
+
+    return newArray;
+  };
+
+  pub.getIndexByKey = function (arr, key, expected) {
+    var i = -1;
+    $.each(arr, function (index, val) {
+      if (val[key] === expected) {
+        i = index;
+      }
+    });
+
+    return i;
   };
 
   function localStorageWarning() {

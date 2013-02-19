@@ -217,13 +217,18 @@ body.ajaxRunning #logo h1 {
   color: #fff;
   display: inline-block;
   font: bold 11px/11px Helvetica, sans-serif;
-  margin: 0 0 0 16px;
+  margin: 0 0 0 15px;
   text-decoration: none;
   text-transform: uppercase;
 }
 
 #account a:hover {
   text-decoration: underline;
+}
+
+#projects-dropdown {
+  background: url(/images/arrow.down.white.png) right center no-repeat transparent;
+  padding-right: 16px;
 }
 
 /* Dialog */
@@ -1000,17 +1005,22 @@ input.textfield.autocomplete {
   background: #fff;
   border-top: 1px dotted rgba(0, 0, 0, 0.2);
   color: #111;
-  cursor: pointer;
+  cursor: default;
   display: block;
   font: normal 12px/14px Helvetica, sans-serif;
   padding: 6px 8px 5px;
 }
 
-#autocomplete .item:hover {
+#autocomplete .apply-on-click .item {
+  cursor: pointer;
+}
+
+#autocomplete .apply-on-click .item:hover {
   background: #eee;
 }
 
-#autocomplete .item.active {
+#autocomplete .item.active,
+#autocomplete .apply-on-click .item.active {
   background: #069;
   color: #fff;
 }
@@ -1476,4 +1486,55 @@ input.textfield.autocomplete {
 
 .projection-chart-story-detail-release h2 {
   background: url(/images/story.release.png) no-repeat scroll 0 0;
+}
+
+/* Projects Selector */
+
+#autocomplete .item.ui-sortable-placeholder {
+  background: #ddd !important;
+  box-shadow: none;
+  border: none;
+}
+
+.project-controls {
+  cursor: move;
+}
+
+.project-controls strong {
+  font-weight: normal;
+  cursor: pointer;
+  display: inline-block;
+  max-width: 180px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-controls.active strong {
+  font-weight: bold;
+}
+
+a.tracker-project-link {
+  background: url(/images/external-link.png) no-repeat scroll right center transparent;
+  float: right;
+  height: 11px;
+  width: 16px;
+}
+
+.project-visibility-toggle {
+  background: url(/images/toggle-switch.png) no-repeat scroll -31px 0 transparent;
+  -moz-transition: background-position 150ms;
+  -webkit-transition: background-position 150ms;
+  border-radius: 6px;
+  height: 17px;
+  float: left;
+  left: -3px;
+  margin-right: 4px;
+  position: relative;
+  top: -2px;
+  width: 57px;
+}
+
+.active .project-visibility-toggle {
+  background-position: 0 0;
 }

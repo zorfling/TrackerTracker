@@ -4,6 +4,8 @@ TT.Autocomplete = (function () {
   var pub = {};
 
   pub.defaults = {
+    applyOnClick: true,
+    closeOnInputBlur: true,
     closeOnApply: true,
     maxHeight: 240
   };
@@ -17,7 +19,7 @@ TT.Autocomplete = (function () {
   pub.onInputBlur = function () {
     if (pub.hasMouse) {
       pub.closeOnLeave = true;
-    } else {
+    } else if (pub.options.closeOnInputBlur) {
       pub.close();
     }
   };
@@ -31,8 +33,9 @@ TT.Autocomplete = (function () {
     pub.closeOnLeave = false;
 
     var data = {
-      className: options.className,
-      items: options.items
+      className: pub.options.className,
+      items: pub.options.items,
+      applyOnClick: pub.options.applyOnClick
     };
 
     var html = TT.View.render('autocomplete', data);
@@ -40,19 +43,19 @@ TT.Autocomplete = (function () {
 
     pub.target = $(options.target);
 
-    if (options.showInput) {
+    if (pub.options.showInput) {
       pub.input = $('#autocomplete-input').show().focus();
-      if (options.value) {
-        pub.input.val(options.value);
+      if (pub.options.value) {
+        pub.input.val(pub.options.value);
       }
     } else {
-      if (options.noActive) {
+      if (pub.options.noActive) {
         $('#autocomplete-input').show().css({ position: 'absolute', top: '-9999px' }).focus().blur(pub.onInputBlur);
       }
       pub.input = pub.target;
     }
 
-    if (!options.noActive) {
+    if (!pub.options.noActive) {
       var inputVal = pub.input.val();
       var active = $('#autocomplete .item').filter(function () {
         return $(this).data('value') === inputVal || $(this).text() === inputVal;
@@ -70,10 +73,13 @@ TT.Autocomplete = (function () {
     pub.setScrollTop();
 
     $('#autocomplete').mouseenter(function () {
+      clearTimeout(pub.closeTimeout);
       pub.hasMouse = true;
     }).mouseleave(function () {
       if (pub.closeOnLeave) {
         pub.close();
+      } else if (!pub.options.closeOnInputBlur) {
+        pub.closeTimeout = setTimeout(pub.close, 500);
       }
       pub.hasMouse = false;
     });
@@ -136,10 +142,11 @@ TT.Autocomplete = (function () {
   pub.setPosition = function (customCSS) {
     var $autocomplete = $('#autocomplete');
     var offset = pub.target.offset();
+    var customTopOffset = pub.options.customTopOffset || -1;
 
     $autocomplete.css($.extend({
       left: offset.left,
-      top: offset.top + pub.target.outerHeight() - 1,
+      top: offset.top + pub.target.outerHeight() + customTopOffset,
       width: pub.target.outerWidth() - 2
     }, customCSS || {}));
 

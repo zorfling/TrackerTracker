@@ -35,9 +35,17 @@ TT.UI = (function () {
     return false;
   };
 
+  // From the Autocomplete selector
+  pub.toggleProjectVisibility = function () {
+    var id = $(this).closest('.project-controls').data('id');
+    $(this).closest('.project-controls').toggleClass('active');
+    $('#project-' + id).click();
+
+    return false;
+  };
+
   pub.refreshProjects = function () {
-    TT.Utils.localStorage('projects', null);
-    TT.Init.requestProjectsAndIterations();
+    TT.Init.requestProjectsAndIterations(true);
 
     return false;
   };
@@ -196,6 +204,54 @@ TT.UI = (function () {
     TT.Autocomplete.open({ items: items, target: this });
 
     return false;
+  };
+
+  pub.openProjectListAutocomplete = function () {
+    var items = [];
+
+    TT.Model.Project.each(function (index, project) {
+      items[items.length] = {
+        name: TT.View.render('projectControls', project),
+        value: project.name
+      };
+    });
+
+    TT.Autocomplete.open({
+      applyOnClick: false,
+      closeOnInputBlur: false,
+      customTopOffset: 4,
+      items: items,
+      target: this,
+      css: { width: 280 },
+      maxHeight: $(window).height() - 60,
+      noActive: true
+    });
+
+    pub.initProjectAutoCompleteSortable();
+
+    return false;
+  };
+
+  pub.initProjectAutoCompleteSortable = function () {
+    $('#autocomplete .list').sortable({
+      containment: '#autocomplete',
+      distance: 5,
+      tolerance: 'pointer',
+      start: function (event, ui) {
+        var oldIndex = $('#autocomplete .list .item').index(ui.item);
+        $(ui.item).data('oldIndex', oldIndex);
+      },
+      stop: function (event, ui) {
+        var newIndex = $('#autocomplete .list .item').index(ui.item);
+        var oldIndex = $(ui.item).data('oldIndex');
+        var projects = JSON.parse(TT.Utils.localStorage('projects'));
+        projects.project = TT.Utils.arrayMove(TT.Utils.normalizePivotalArray(projects.project), oldIndex, newIndex);
+        TT.Model.Project.move(oldIndex, newIndex);
+        TT.View.drawProjectList(projects.project);
+        TT.Init.setInactiveProjects();
+        TT.Utils.localStorage('projects', projects);
+      }
+    });
   };
 
   pub.openStoryRequesterUpdater = function () {

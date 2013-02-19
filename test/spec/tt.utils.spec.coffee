@@ -31,6 +31,23 @@ describe "TT.Utils", ->
       it "should pad the array with undefined values until it gets to the requested index", ->
         expect(subject(arr, 2, 6)).toEqual [1, 2, 4, 5, 6, undefined, 3]
 
+  describe "#reconcileArrayOrder", ->
+    subject = TT.Utils.reconcileArrayOrder
+    key = 'foo'
+    oldArray = [{ foo: 2 }, { foo: 1 }]
+    newArray = [{ foo: 0 }, { foo: 1 }, { foo: 2 }, { foo: 3 }]
+    expectedArray = [{ foo: 2 }, { foo: 1 }, { foo: 0 }, { foo: 3 }]
+
+    it "should rearrange the newArray to use the order of the oldArray", ->
+      expect(subject(key, oldArray, newArray)).toEqual expectedArray
+
+  describe "#getIndexByKey", ->
+    subject = TT.Utils.getIndexByKey
+    arr = [{ foo: 1 }, { foo: 2 }, { foo: 3 }, { foo: 4 }]
+
+    it "should return the index of the row with the matching property", ->
+      expect(subject(arr, 'foo', 3)).toEqual 2
+
   describe "#localStorage", ->
     subject = TT.Utils.localStorage
     key = 'myKey'
