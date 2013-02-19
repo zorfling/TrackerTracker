@@ -1,7 +1,5 @@
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-
   // Project configuration.
   grunt.initConfig({
     concat: {
@@ -35,7 +33,7 @@ module.exports = function(grunt) {
         dest: 'app/public/js/bundle/hoganTemplates.js'
       }
     },
-    min: {
+    uglify: {
       dist: {
         src: ['app/public/js/bundle/tt.js'],
         dest: 'app/public/js/bundle/tt.min.js'
@@ -96,8 +94,12 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-fingerprint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'hogan', 'concat', 'min', 'fingerprint']);
+  grunt.registerTask('default', ['jshint', 'hogan', 'concat', 'uglify', 'fingerprint']);
 
 };
