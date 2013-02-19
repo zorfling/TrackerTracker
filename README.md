@@ -54,7 +54,7 @@ forever start --watch -l ~/forever.log -o ~/out.log -e ~/err.log app.js
 1. Install **Homebrew**: [http://mxcl.github.com/homebrew/](http://mxcl.github.com/homebrew/)
 2. Install **Redis**: `brew install redis`
 3. Install **NodeJS**: [http://nodejs.org/](http://nodejs.org/)
-4. Install **Grunt**: `npm -g install grunt`
+4. Install **Grunt-CLI**: `npm -g install grunt-cli`
 5. Install **Testacular**: `npm -g install testacular`
 6. Install **TrackerTracker**: `git clone git@github.com:intentmedia/TrackerTracker.git`
 7. Install **NPM packages**: `cd TrackerTracker && npm install`

@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+
   // Project configuration.
   grunt.initConfig({
     concat: {
@@ -96,6 +98,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-fingerprint');
 
   // Default task.
-  grunt.registerTask('default', 'lint hogan concat min fingerprint');
+  grunt.registerTask('default', ['jshint', 'hogan', 'concat', 'min', 'fingerprint']);
 
 };
