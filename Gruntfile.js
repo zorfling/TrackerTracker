@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     },
     fingerprint: {
       assets: {
-        files: [
+        src: [
           'app/public/js/bundle/*',
           'app/public/css/bundle/*'
         ],
@@ -92,12 +92,11 @@ module.exports = function(grunt) {
     });
     grunt.file.write(data.dest, output);
   });
-
-  grunt.loadNpmTasks('grunt-fingerprint');
+  
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-
+  grunt.loadNpmTasks('grunt-fingerprint');
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'hogan', 'concat', 'uglify', 'fingerprint']);
