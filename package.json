@@ -12,9 +12,7 @@
     "jira": "git://github.com/intentmedia/node-jira.git#master",
     "pivotal": "git://github.com/Wizcorp/node-pivotal.git#master",
     "redis": "*",
-    "request": "*"
-  },
-  "devDependencies": {
+    "request": "*",
     "grunt": "~0.4.0",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-concat": "*",
