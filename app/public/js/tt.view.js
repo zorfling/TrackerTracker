@@ -234,22 +234,31 @@ TT.View = (function () {
   };
 
   pub.drawStory = function (story, column) {
-    var html = pub.render('story', story);
-    var element = pub.attach(html, '.' + column.class_name + ' .column-bucket');
-
-    pub.restoreStoryState(element, story);
-    return element;
+    return drawStoryHelper(story, '.' + column.class_name + ' .column-bucket');
   };
 
   pub.redrawStory = function (story) {
     $('#columns .story-' + story.id).each(function () {
-      var html = pub.render('story', story);
-      var element = pub.attach(html, this, 'insertAfter');
-
-      pub.restoreStoryState(element, story);
+      drawStoryHelper(story, this, 'insertAfter');
       $(this).remove();
     });
   };
+
+  function drawStoryHelper(story, target, insertMethod) {
+    var html = pub.render('story', story);
+    var element = pub.attach(html, target, insertMethod);
+
+    var specialLabels = ['blocked'];
+    $.each(specialLabels, function (i, label) {
+      if (TT.Model.Story.hasTag(story, label)) {
+        element.addClass(TT.Utils.cssify(label));
+      }
+    });
+
+    pub.restoreStoryState(element, story);
+
+    return element;
+  }
 
   pub.drawStoryDetails = function (storyElement) {
     var data = TT.Model.Story.get({ id: storyElement.data('id') });

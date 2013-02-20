@@ -615,6 +615,14 @@ body.has-modal-dialog {
   position: relative;
 }
 
+.story.blocked {
+  opacity: 0.5;
+}
+
+.story.blocked.expanded-story {
+  opacity: 1.0;
+}
+
 .story:hover {
   background-color: #fff;
 }
@@ -901,10 +909,6 @@ body.has-modal-dialog {
   font: normal 11px/15px Helvetica, sans-serif;
   margin: 8px 0 0;
   padding: 0 2px;
-}
-
-.story.blocked {
-  background-color: #f5cbd3;
 }
 
 .column-started .story,
