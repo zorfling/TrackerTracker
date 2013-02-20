@@ -34,19 +34,19 @@ A demo install is up and running at [http://trackertracker.glomerate.com](http:/
 
 ## Installation
 
-### Ubuntu Server Install
+### Ubuntu Server Install (Tested on 12.04)
 
 ```sh
+# Need this to get the most recent version of node/npm - maybe not needed on 12.10
+add-apt-repository ppa:richarvey/nodejs
 aptitude update
 aptitude install build-essential git-core nodejs npm redis-server
-npm -g install grunt-cli
-npm -g install forever
+npm -g install grunt-cli forever
 git clone git@github.com:intentmedia/TrackerTracker.git
 cd TrackerTracker
 npm install
 grunt
-cd app
-forever start --watch -l ~/forever.log -o ~/out.log -e ~/err.log app.js
+forever start --watch -l ~/forever.log -o ~/out.log -e ~/err.log app/app.js
 ```
 
 ### OS X Developer Install
