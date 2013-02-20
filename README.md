@@ -102,6 +102,7 @@ TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It se
 * Andrew Childs ([@andrewchilds](http://twitter.com/andrewchilds))
 * Adrian Cretu-Barbul ([@adriancb](http://twitter.com/adriancb))
 * Kurt Schrader ([@kurt](http://twitter.com/kurt))
+* John Whitfield ([@jkwhitfield](http://twitter.com/jkwhitfield))
 
 ## License
 
