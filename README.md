@@ -39,7 +39,7 @@ A demo install is up and running at [http://trackertracker.glomerate.com](http:/
 ```sh
 aptitude update
 aptitude install build-essential git-core nodejs npm redis-server
-npm -g install grunt
+npm -g install grunt-cli
 npm -g install forever
 git clone git@github.com:intentmedia/TrackerTracker.git
 cd TrackerTracker
@@ -54,7 +54,7 @@ forever start --watch -l ~/forever.log -o ~/out.log -e ~/err.log app.js
 1. Install **Homebrew**: [http://mxcl.github.com/homebrew/](http://mxcl.github.com/homebrew/)
 2. Install **Redis**: `brew install redis`
 3. Install **NodeJS**: [http://nodejs.org/](http://nodejs.org/)
-4. Install **Grunt**: `npm -g install grunt`
+4. Install **Grunt-CLI**: `npm -g install grunt-cli`
 5. Install **Testacular**: `npm -g install testacular`
 6. Install **TrackerTracker**: `git clone git@github.com:intentmedia/TrackerTracker.git`
 7. Install **NPM packages**: `cd TrackerTracker && npm install`
@@ -101,6 +101,7 @@ TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It se
 
 * Andrew Childs ([@andrewchilds](http://twitter.com/andrewchilds))
 * Adrian Cretu-Barbul ([@adriancb](http://twitter.com/adriancb))
+* Kurt Schrader ([@kurt](http://twitter.com/kurt))
 
 ## License
 

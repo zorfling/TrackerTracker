@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     },
     fingerprint: {
       assets: {
-        files: [
+        src: [
           'app/public/js/bundle/*',
           'app/public/css/bundle/*'
         ],
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         dest: 'app/public/js/bundle/hoganTemplates.js'
       }
     },
-    min: {
+    uglify: {
       dist: {
         src: ['app/public/js/bundle/tt.js'],
         dest: 'app/public/js/bundle/tt.min.js'
@@ -92,10 +92,14 @@ module.exports = function(grunt) {
     });
     grunt.file.write(data.dest, output);
   });
-
+  
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-fingerprint');
 
   // Default task.
-  grunt.registerTask('default', 'lint hogan concat min fingerprint');
+  grunt.registerTask('default', ['jshint', 'hogan', 'concat', 'uglify', 'fingerprint']);
 
 };

@@ -10,9 +10,14 @@
     "hogan.js": "*",
     "jade": "*",
     "jira": "git://github.com/intentmedia/node-jira.git#master",
-    "grunt-fingerprint": "*",
     "pivotal": "git://github.com/Wizcorp/node-pivotal.git#master",
     "redis": "*",
-    "request": "*"
+    "request": "*",
+    "grunt": "~0.4.0",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-fingerprint": "~0.1.0"
   }
 }
