@@ -19,6 +19,7 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-concat": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
     "grunt-fingerprint": "~0.1.0"
   }
 }

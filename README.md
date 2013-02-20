@@ -39,7 +39,7 @@ A demo install is up and running at [http://trackertracker.glomerate.com](http:/
 ```sh
 aptitude update
 aptitude install build-essential git-core nodejs npm redis-server
-npm -g install grunt
+npm -g install grunt-cli
 npm -g install forever
 git clone git@github.com:intentmedia/TrackerTracker.git
 cd TrackerTracker
@@ -101,6 +101,7 @@ TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It se
 
 * Andrew Childs ([@andrewchilds](http://twitter.com/andrewchilds))
 * Adrian Cretu-Barbul ([@adriancb](http://twitter.com/adriancb))
+* Kurt Schrader ([@kurt](http://twitter.com/kurt))
 
 ## License
 
