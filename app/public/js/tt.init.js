@@ -210,6 +210,19 @@ TT.Init = (function () {
       });
     }
 
+    if (TT.Model.Filter.isEmpty({ name: 'Requested by Me' })) {
+      TT.Model.Filter.add({
+        name: 'Requested by Me',
+        type: 'user',
+        active: false,
+        sticky: true,
+        pure: true,
+        fn: function (story) {
+          return story.requested_by === $.cookie('pivotalUsername');
+        }
+      });
+    }
+
     if (TT.Model.Filter.isEmpty({ name: 'Current Iteration' })) {
       TT.Model.Filter.add({
         name: 'Current Iteration',
