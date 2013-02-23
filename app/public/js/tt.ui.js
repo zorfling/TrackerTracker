@@ -492,7 +492,7 @@ TT.UI = (function () {
   pub.saveStoryTitle = function () {
     var story = getStoryFromContext(this);
     var name = $(this).closest('.textarea').find('textarea').val();
-    var formatted_name = name ? TT.Utils.showdownLite(name) : '';
+    var formatted_name = name ? TT.Utils.marked(name) : '';
 
     if (!name) {
       TT.View.message('Title is required.', { type: 'error' });
@@ -510,7 +510,7 @@ TT.UI = (function () {
   pub.saveStoryDescription = function () {
     var story = getStoryFromContext(this);
     var description = $(this).closest('.textarea').find('textarea').val();
-    var formatted_description = description ? TT.Utils.showdownLite(description) : '<span class="ghost">Click to add a description</span>';
+    var formatted_description = description ? TT.Utils.marked(description) : '<span class="ghost">Click to add a description</span>';
 
     TT.Model.Story.saveDescription(story, description, formatted_description);
 

@@ -14,7 +14,8 @@ module.exports = function(grunt) {
         'app/public/js/lib/jquery-1.8.3.min.js',
         'app/public/js/lib/jquery-ui-1.9.2.custom.min.js',
         'app/public/js/lib/jquery.*.js',
-        'app/public/js/lib/hogan.js'
+        'app/public/js/lib/hogan.js',
+        'node_modules/marked/lib/marked.js'
       ]
     },
     fingerprint: {
@@ -92,7 +93,7 @@ module.exports = function(grunt) {
     });
     grunt.file.write(data.dest, output);
   });
-  
+
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');

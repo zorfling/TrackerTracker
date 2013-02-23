@@ -615,6 +615,10 @@ body.has-modal-dialog {
   position: relative;
 }
 
+.story p {
+  margin: 6px 0 8px;
+}
+
 .story.blocked {
   opacity: 0.5;
 }
@@ -683,6 +687,11 @@ body.has-modal-dialog {
 
 .expanded-story .title-container h2 {
   margin: 6px 0 0 12px;
+}
+
+.story .summary .title p {
+  margin: 0;
+  display: inline;
 }
 
 .story .title {
@@ -871,6 +880,10 @@ body.has-modal-dialog {
   padding: 9px 11px 8px;
 }
 
+.story .textfield {
+  padding: 3px 11px 0px;
+}
+
 .story .textarea {
   display: block;
   margin-right: 26px;
@@ -881,7 +894,12 @@ body.has-modal-dialog {
 }
 
 .story .text {
-  margin: 6px 0 0;
+}
+
+.story .description span.ghost,
+.story .note span.ghost {
+  display: inline-block;
+  margin: 4px 0 5px;
 }
 
 .story .note .author {

@@ -181,30 +181,9 @@ TT.Utils = (function () {
     return initials;
   };
 
-  pub.showdownLite = function (text) {
-    if (pub.isString(text)) {
-      // <br />
-      text = text.replace(/\n/g, '<br />');
-      // <strong> must go first
-      text = text.replace(/(\*)(?=\S)([^\r]*?\S[*]*)\1/g, '<strong>$2</strong>');
-      // <em>
-      text = text.replace(/(\w)_(\w)/g, '$1[[underscore]]$2'); // ** GFM **  "~E95E" == escaped "_"
-      text = text.replace(/(_)(?=\S)([^\r]*?\S)\1/g, '<em>$2</em>');
-      text = text.replace(/\[\[underscore\]\]/g, '_');
-    }
-
-    return text;
-  };
-
-  pub.linebreaks = function (text) {
-    if (pub.isString(text)) {
-      // <br />
-      text = text.replace(/\n+\s+\n+/g, '<br /><br />');
-      text = text.replace(/\n/g, '<br />');
-    }
-
-    return text;
-  };
+  pub.marked = function (text) {
+    return pub.isString(text) && window.marked ? window.marked(text) : text;
+  }
 
   pub.removeFromArray = function (arr, val) {
     $.each(arr, function (index, item) {

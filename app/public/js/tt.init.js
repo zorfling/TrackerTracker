@@ -451,6 +451,17 @@ TT.Init = (function () {
     }, 1000 * 60 * 5);
   };
 
+  pub.initMarked = function () {
+    if (window.marked) {
+      window.marked.setOptions({
+        breaks: true,
+        gfm: true,
+        pedantic: false,
+        tables: false
+      });
+    }
+  };
+
   pub.init = function () {
     if (pub.firstRun) {
       TT.View.drawPageLayout();
@@ -479,6 +490,7 @@ TT.Init = (function () {
       TT.UI.init();
       TT.Importer.init();
       pub.setUpdateInterval();
+      pub.initMarked();
     }
 
     if ($.cookie('pivotalToken')) {

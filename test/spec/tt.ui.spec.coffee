@@ -125,7 +125,7 @@ describe "UI interactions", ->
     say "I open a story", ->
       beforeEach ->
         $('.story-' + id).find('.toggle-arrow').click()
-        original_description = $('.story-' + id).find('.description').html()
+        original_description = $('.story-' + id).find('.description').text()
 
       it "should display the story details", ->
         expect($('.story-' + id).find('.description').is(':visible')).toBe true
@@ -154,7 +154,7 @@ describe "UI interactions", ->
               $('.story-' + id).find('.description-container .actions a.cancel').click()
 
             it "should restore the original description", ->
-              expect($('.story-' + id).find('.description').html()).toBe original_description
+              expect($('.story-' + id).find('.description').text()).toContain original_description
 
         also "I save the edited description", ->
           beforeEach ->
@@ -179,7 +179,7 @@ describe "UI interactions", ->
             }
 
           it "should display the new description", ->
-            expect($('.story-' + id).find('.description').html()).toBe edited_description
+            expect($('.story-' + id).find('.description').text()).toContain edited_description
 
       also "I click the delete button on a tag", ->
         tagName = 'blocked'

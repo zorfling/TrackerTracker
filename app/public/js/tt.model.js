@@ -285,9 +285,9 @@ TT.Model = (function () {
   pub.Story.onBeforeAdd = function (story) {
     story.id = parseInt(story.id, 10);
     story.project_id = parseInt(story.project_id, 10);
-    story.formatted_name = TT.Utils.showdownLite(story.name);
+    story.formatted_name = TT.Utils.marked(story.name);
     story.description = TT.Utils.isString(story.description) ? story.description : '';
-    story.formatted_description = story.description ? TT.Utils.showdownLite(story.description) : '<span class="ghost">Click to add a description</span>';
+    story.formatted_description = story.description ? TT.Utils.marked(story.description) : '<span class="ghost">Click to add a description</span>';
     story.estimate = story.estimate >= 0 ? story.estimate : '';
     story.labels = TT.Utils.isString(story.labels) ? story.labels.indexOf(',') !== -1 ? story.labels.split(',') : [story.labels] : [];
     story.notes = compileNotes(story);
@@ -312,7 +312,7 @@ TT.Model = (function () {
     if (story.notes && story.notes.note) {
       story.notes = $.map(TT.Utils.normalizePivotalArray(story.notes.note), function (note, index) {
         if (TT.Utils.isString(note.text)) {
-          note.text = TT.Utils.linebreaks(note.text);
+          note.text = TT.Utils.marked(note.text);
         } else {
           note.text = '';
         }
@@ -331,7 +331,7 @@ TT.Model = (function () {
         attachment.isImage = isImage(attachment.filename);
         if (TT.Utils.isString(attachment.description)) {
           var noteIndex = find(story.notes, { text: attachment.description }, true)[0];
-          attachment.description = TT.Utils.linebreaks(attachment.description);
+          attachment.description = TT.Utils.marked(attachment.description);
           if (TT.Utils.isNumber(noteIndex)) {
             story.notes[noteIndex].attachments.push(attachment);
             return;
