@@ -700,6 +700,7 @@ body.has-modal-dialog {
 }
 
 .story .title {
+  line-height: 15px;
   word-wrap: break-word;
 }
 
@@ -780,7 +781,7 @@ body.has-modal-dialog {
   display: inline-block;
   font: 11px/11px Helvetica, Arial, sans-serif;
   margin: 0 1px;
-  padding: 2px 4px;
+  padding: 2px 4px 1px;
 }
 
 .tag:hover {
