@@ -330,8 +330,8 @@ TT.Model = (function () {
         attachment.timestamp = new Date(attachment.uploaded_at).getTime();
         attachment.isImage = isImage(attachment.filename);
         if (TT.Utils.isString(attachment.description)) {
-          var noteIndex = find(story.notes, { text: attachment.description }, true)[0];
           attachment.description = TT.Utils.marked(attachment.description);
+          var noteIndex = find(story.notes, { text: attachment.description }, true)[0];
           if (TT.Utils.isNumber(noteIndex)) {
             story.notes[noteIndex].attachments.push(attachment);
             return;
