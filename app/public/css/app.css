@@ -45,6 +45,11 @@ a:hover {
   color: #024;
 }
 
+a.external {
+  background: url(/images/external-link.png) no-repeat scroll right center transparent;
+  padding-right: 14px;
+}
+
 textarea, input.textfield {
   border: 1px solid #ccc;
   border-radius: 1px;
@@ -996,6 +1001,17 @@ body.has-modal-dialog {
 
 .column.ui-sortable-placeholder {
   box-shadow: none;
+}
+
+.view-all-images {
+  color: #047;
+  float: right;
+  font: normal 11px/16px Helvetica, sans-serif;
+}
+
+.view-all-images:hover {
+  color: #024;
+  text-decoration: underline;
 }
 
 /* Autocomplete */

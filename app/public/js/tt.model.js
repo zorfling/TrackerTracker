@@ -284,6 +284,7 @@ TT.Model = (function () {
 
   pub.Story.onBeforeAdd = function (story) {
     story.id = parseInt(story.id, 10);
+    story.has_images = false;
     story.project_id = parseInt(story.project_id, 10);
     story.formatted_name = TT.Utils.marked(story.name);
     story.description = TT.Utils.isString(story.description) ? story.description : '';
@@ -329,6 +330,9 @@ TT.Model = (function () {
       $.each(TT.Utils.normalizePivotalArray(story.attachments.attachment), function (index, attachment) {
         attachment.timestamp = new Date(attachment.uploaded_at).getTime();
         attachment.isImage = isImage(attachment.filename);
+        if (attachment.isImage) {
+          story.has_images = true;
+        }
         if (TT.Utils.isString(attachment.description)) {
           attachment.description = TT.Utils.marked(attachment.description);
           var noteIndex = find(story.notes, { text: attachment.description }, true)[0];
