@@ -21,11 +21,11 @@ app.configure(function () {
 });
 
 app.configure('development', function () {
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function () {
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
 });
 
 app.get('/', routes.index);
