@@ -290,6 +290,30 @@ TT.UI = (function () {
     return openStoryUpdater(this, { getItems: getItems, key: 'owned_by' });
   };
 
+  pub.openStoryQAUpdater = function () {
+    var story = getStoryFromContext(this);
+
+    var getItems = function (story) {
+      var project = TT.Model.Project.get({ id: story.project_id });
+      var users = TT.Utils.normalizePivotalArray(project.memberships.membership);
+      var items = [
+        { name: '<em>none</em>', value: '' }
+      ];
+
+      $.each(users, function (i, user) {
+        items[items.length] = { name: user.person.name, value: user.person.name };
+      });
+
+      return items;
+    };
+
+    var onApply = function () {
+      return TT.Model.Story.addQA(story, $(this).data('value'));
+    };
+
+    return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
+  };
+
   pub.openStoryPointsUpdater = function () {
     var getItems = function (story) {
       var project = TT.Model.Project.get({ id: story.project_id });
@@ -368,7 +392,7 @@ TT.UI = (function () {
       value: $(context).text(),
       showInput: true,
       target: context,
-      onApply: function () {
+      onApply: options.onApply || function () {
         var update = {};
         update[options.key] = $(this).data('value');
         TT.Model.Story.serverSave(story, update, TT.View.drawStories);
