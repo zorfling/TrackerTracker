@@ -293,6 +293,14 @@ TT.Model = (function () {
     story.labels = TT.Utils.isString(story.labels) ? story.labels.indexOf(',') !== -1 ? story.labels.split(',') : [story.labels] : [];
     story.notes = compileNotes(story);
 
+    var qa = pub.Story.getMetadata(story, 'qa');
+    qa = pub.User.get(function (user) {
+      return user.name.toLowerCase() === qa;
+    });
+    if (qa) {
+      story.qa = qa.name;
+    }
+
     var project = pub.Project.get({ id: story.project_id }) || {};
     var user = pub.User.get({ name: story.owned_by }) || {};
 
@@ -397,6 +405,7 @@ TT.Model = (function () {
   };
 
   pub.Story.addTag = function (story, tag) {
+    story.labels = story.labels || [];
     if (!pub.Story.hasTag(story, tag)) {
       story.labels[story.labels.length] = tag;
     }
@@ -410,6 +419,56 @@ TT.Model = (function () {
     }
 
     return story;
+  };
+
+  pub.Story.addMetadata = function (story, metadata) {
+    $.each(metadata, function (key, val) {
+      story = pub.Story.removeMetadata(story, key);
+      story = pub.Story.addTag(story, '[' + key + ':' + val.toLowerCase() + ']');
+    });
+
+    return story;
+  };
+
+  pub.Story.removeMetadata = function (story, key) {
+    key = '[' + key + ':';
+    if (story.labels) {
+      $.each(story.labels, function (index, label) {
+        if (label.indexOf(key) === 0) {
+          story = pub.Story.removeTag(story, label);
+        }
+      });
+    }
+
+    return story;
+  };
+
+  pub.Story.getMetadata = function (story, key) {
+    var data;
+    var prefix = '[' + key + ':';
+    if (story.labels) {
+      $.each(story.labels, function (index, label) {
+        if (label.indexOf(prefix) === 0) {
+          data = label.match(new RegExp('\\[' + key + '\:(.*)\]'))[1];
+        }
+      });
+    }
+
+    return data;
+  };
+
+  pub.Story.addQA = function (story, qa) {
+    story.qa = qa;
+    if (qa) {
+      story = pub.Story.addMetadata(story, { qa: qa });
+    } else {
+      story = pub.Story.removeMetadata(story, 'qa');
+    }
+    var update = { labels: story.labels };
+
+    pub.Story.update(story, update);
+    pub.Story.serverSave(story, update, TT.View.drawStories);
+    TT.View.drawStories();
   };
 
   pub.Story.serverSave = function (story, data, callback) {

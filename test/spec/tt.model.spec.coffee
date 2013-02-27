@@ -83,3 +83,42 @@ describe "Models", ->
         it "should do nothing", ->
           expect(Color.get({ id: 4 })).toBe undefined
           expect(Color.get().length).toBe 3
+
+  describe "Story methods", ->
+    story = {}
+
+    describe "#addMetadata", ->
+      subject = TT.Model.Story.addMetadata
+
+      say "the metadata doesn't already exist in the object", ->
+        beforeEach ->
+          story = { labels: ['regular label'] }
+
+        it "should save the metadata", ->
+          story = subject(story, { merged: 'true' })
+          expect(story).toEqual { labels: ['regular label', '[merged:true]'] }
+
+      say "the metadata already exists in the object", ->
+        beforeEach ->
+          story = { labels: ['[merged:true]'] }
+
+        it "should save the metadata", ->
+          story = subject(story, { merged: 'false' })
+          expect(story).toEqual { labels: ['[merged:false]'] }
+
+    describe "#getMetadata", ->
+      subject = TT.Model.Story.getMetadata
+
+      say "the metadata exists in the object", ->
+        beforeEach ->
+          story = { labels: ['[linked:123456789]'] }
+
+        it "should return the metadata value", ->
+          expect(subject(story, 'linked')).toBe '123456789'
+
+      say "the metadata does not exist in the object", ->
+        beforeEach ->
+          story = { labels: [] }
+
+        it "should return undefined", ->
+          expect(subject(story, 'linked')).toBe undefined

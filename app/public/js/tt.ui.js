@@ -290,6 +290,30 @@ TT.UI = (function () {
     return openStoryUpdater(this, { getItems: getItems, key: 'owned_by' });
   };
 
+  pub.openStoryQAUpdater = function () {
+    var story = getStoryFromContext(this);
+
+    var getItems = function (story) {
+      var project = TT.Model.Project.get({ id: story.project_id });
+      var users = TT.Utils.normalizePivotalArray(project.memberships.membership);
+      var items = [
+        { name: '<em>none</em>', value: '' }
+      ];
+
+      $.each(users, function (i, user) {
+        items[items.length] = { name: user.person.name, value: user.person.name };
+      });
+
+      return items;
+    };
+
+    var onApply = function (name) {
+      return TT.Model.Story.addQA(story, name);
+    };
+
+    return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
+  };
+
   pub.openStoryPointsUpdater = function () {
     var getItems = function (story) {
       var project = TT.Model.Project.get({ id: story.project_id });
@@ -368,9 +392,9 @@ TT.UI = (function () {
       value: $(context).text(),
       showInput: true,
       target: context,
-      onApply: function () {
+      onApply: options.onApply || function (value) {
         var update = {};
-        update[options.key] = $(this).data('value');
+        update[options.key] = value;
         TT.Model.Story.serverSave(story, update, TT.View.drawStories);
         if (options.onBeforeUpdate) {
           update = options.onBeforeUpdate(update);
@@ -396,8 +420,7 @@ TT.UI = (function () {
       items: actions,
       target: this,
       noActive: true,
-      onApply: function () {
-        var action = $(this).data('value');
+      onApply: function (action) {
         if (action === 'Download') {
           document.location = url;
         } else if (action === 'Delete') {
