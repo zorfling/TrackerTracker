@@ -307,8 +307,8 @@ TT.UI = (function () {
       return items;
     };
 
-    var onApply = function () {
-      return TT.Model.Story.addQA(story, $(this).data('value'));
+    var onApply = function (name) {
+      return TT.Model.Story.addQA(story, name);
     };
 
     return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
@@ -392,9 +392,9 @@ TT.UI = (function () {
       value: $(context).text(),
       showInput: true,
       target: context,
-      onApply: options.onApply || function () {
+      onApply: options.onApply || function (value) {
         var update = {};
-        update[options.key] = $(this).data('value');
+        update[options.key] = value;
         TT.Model.Story.serverSave(story, update, TT.View.drawStories);
         if (options.onBeforeUpdate) {
           update = options.onBeforeUpdate(update);
@@ -420,8 +420,7 @@ TT.UI = (function () {
       items: actions,
       target: this,
       noActive: true,
-      onApply: function () {
-        var action = $(this).data('value');
+      onApply: function (action) {
         if (action === 'Download') {
           document.location = url;
         } else if (action === 'Delete') {
