@@ -192,9 +192,8 @@ TT.Init = (function () {
 
   pub.preloadFilters = function () {
     var filters = TT.Model.Filter.clientLoad();
-
     if (filters) {
-      pub.restoreFilters(filters);
+      pub.restoreFilters(JSON.parse(filters));
     }
 
     if (TT.Model.Filter.isEmpty({ name: 'Owned by Me' })) {
@@ -223,20 +222,18 @@ TT.Init = (function () {
       });
     }
 
-    if (!TT.Model.Filter.isEmpty({ name: 'QAed by Me' })) {
-      TT.Model.Filter.remove({ name: 'QAed by Me' });
+    if (TT.Model.Filter.isEmpty({ name: 'QAed by Me' })) {
+      TT.Model.Filter.add({
+        name: 'QAed by Me',
+        type: 'user',
+        active: false,
+        sticky: true,
+        pure: true,
+        fn: function (story) {
+          return TT.Model.Story.hasTag(story, '[qa=' + $.cookie('pivotalUsername').toLowerCase() + ']');
+        }
+      });
     }
-
-    TT.Model.Filter.add({
-      name: 'QAed by Me',
-      type: 'user',
-      active: false,
-      sticky: true,
-      pure: true,
-      fn: function (story) {
-        return TT.Model.Story.hasTag(story, '[qa=' + $.cookie('pivotalUsername').toLowerCase() + ']');
-      }
-    });
 
     if (TT.Model.Filter.isEmpty({ name: 'Current Iteration' })) {
       TT.Model.Filter.add({
@@ -272,16 +269,16 @@ TT.Init = (function () {
         sticky: true,
         pure: true,
         fn: function (story) {
-          var two_days = 1000 * 60 * 60 * 24 * 2;
+          var three_days = 1000 * 60 * 60 * 24 * 3;
           var updated = new Date(story.updated_at).getTime();
-          return updated > (new Date().getTime() - two_days);
+          return updated > (new Date().getTime() - three_days);
         }
       });
     }
   };
 
   pub.restoreFilters = function (filters) {
-    $.each(JSON.parse(filters), function (index, filter) {
+    $.each(filters, function (index, filter) {
       if (filter.pure) {
         filter.fn = eval(filter.fn);
         TT.Model.Filter.add(filter);
