@@ -139,6 +139,12 @@ TT.UI = (function () {
     return false;
   };
 
+  pub.filterByTagFromEpicScale = function () {
+    $(this).closest('.row').find('.tag').click();
+
+    return false;
+  };
+
   pub.toggleFilter = function (e) {
     var id = $(this).closest('.filter').data('filter-id');
     var filter = TT.Model.Filter.get({ id: id });
