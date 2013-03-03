@@ -223,18 +223,20 @@ TT.Init = (function () {
       });
     }
 
-    if (TT.Model.Filter.isEmpty({ name: 'QAed by Me' })) {
-      TT.Model.Filter.add({
-        name: 'QAed by Me',
-        type: 'user',
-        active: false,
-        sticky: true,
-        pure: true,
-        fn: function (story) {
-          return TT.Model.Story.hasTag(story, '[qa:' + $.cookie('pivotalUsername').toLowerCase() + ']');
-        }
-      });
+    if (!TT.Model.Filter.isEmpty({ name: 'QAed by Me' })) {
+      TT.Model.Filter.remove({ name: 'QAed by Me' });
     }
+
+    TT.Model.Filter.add({
+      name: 'QAed by Me',
+      type: 'user',
+      active: false,
+      sticky: true,
+      pure: true,
+      fn: function (story) {
+        return TT.Model.Story.hasTag(story, '[qa=' + $.cookie('pivotalUsername').toLowerCase() + ']');
+      }
+    });
 
     if (TT.Model.Filter.isEmpty({ name: 'Current Iteration' })) {
       TT.Model.Filter.add({

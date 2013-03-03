@@ -96,22 +96,22 @@ describe "Models", ->
 
         it "should save the metadata", ->
           story = subject(story, { merged: 'true' })
-          expect(story).toEqual { labels: ['regular label', '[merged:true]'] }
+          expect(story).toEqual { labels: ['regular label', '[merged=true]'] }
 
       say "the metadata already exists in the object", ->
         beforeEach ->
-          story = { labels: ['[merged:true]'] }
+          story = { labels: ['[merged=true]'] }
 
         it "should save the metadata", ->
           story = subject(story, { merged: 'false' })
-          expect(story).toEqual { labels: ['[merged:false]'] }
+          expect(story).toEqual { labels: ['[merged=false]'] }
 
     describe "#getMetadata", ->
       subject = TT.Model.Story.getMetadata
 
       say "the metadata exists in the object", ->
         beforeEach ->
-          story = { labels: ['[linked:123456789]'] }
+          story = { labels: ['[linked=123456789]'] }
 
         it "should return the metadata value", ->
           expect(subject(story, 'linked')).toBe '123456789'

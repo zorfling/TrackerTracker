@@ -424,14 +424,14 @@ TT.Model = (function () {
   pub.Story.addMetadata = function (story, metadata) {
     $.each(metadata, function (key, val) {
       story = pub.Story.removeMetadata(story, key);
-      story = pub.Story.addTag(story, '[' + key + ':' + val.toLowerCase() + ']');
+      story = pub.Story.addTag(story, '[' + key + '=' + val.toLowerCase() + ']');
     });
 
     return story;
   };
 
   pub.Story.removeMetadata = function (story, key) {
-    key = '[' + key + ':';
+    key = '[' + key + '=';
     if (story.labels) {
       $.each(story.labels, function (index, label) {
         if (label.indexOf(key) === 0) {
@@ -445,11 +445,11 @@ TT.Model = (function () {
 
   pub.Story.getMetadata = function (story, key) {
     var data;
-    var prefix = '[' + key + ':';
+    var prefix = '[' + key + '=';
     if (story.labels) {
       $.each(story.labels, function (index, label) {
         if (label.indexOf(prefix) === 0) {
-          data = label.match(new RegExp('\\[' + key + '\:(.*)\]'))[1];
+          data = label.match(new RegExp('\\[' + key + '\=(.*)\]'))[1];
         }
       });
     }
