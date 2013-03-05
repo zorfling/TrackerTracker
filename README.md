@@ -61,6 +61,14 @@ forever start --watch -l ~/forever.log -o ~/out.log -e ~/err.log app/app.js
 
 #### Running the app
 
+In terminal window #1, start redis:
+
+```sh
+redis-server
+```
+
+In terminal window #2, run grunt once to bundle your static files, and then start node:
+
 ```sh
 cd TrackerTracker
 grunt
