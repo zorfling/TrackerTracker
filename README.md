@@ -15,7 +15,8 @@ Multi-project Scrum UI for [Pivotal Tracker](http://www.pivotaltracker.com).
 * Labels, searches, column order, selected projects all survive browser restart
 * Enter your Pivotal API token and user name and off you go
 * Most actions are supported: update story descriptions, add notes, drag them to different columns to update their status and priority
-* It's pretty easy to write custom columns and filters
+* Write your own custom columns and filters in a couple lines of JS
+* Assign stories to QAs
 * Forecasting charts
 
 ![Screenshot](http://i.imgur.com/FK00z8H.png)
@@ -26,7 +27,7 @@ Companies like [a particular technology startup](http://www.intentmedia.com/) th
 
 ## Project Status
 
-This should be considered beta software, use at your own risk. If you have any issues or feature requests, we would love to know, please [open an issue](http://github.com/intentmedia/TrackerTracker/issues). Contributions and pull requests are also very welcome.
+This is beta software, use at your own risk. If you have any issues or feature requests, we would love to know, please [open an issue](http://github.com/intentmedia/TrackerTracker/issues). Contributions and pull requests are also very welcome.
 
 ## Demo
 
@@ -103,7 +104,7 @@ grunt watch
 
 ## Browser Support
 
-TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It seems fine in IE 9, but broken in IE 10. (Progress!) Fluid's localStorage implementation doesn't survive a restart, so for now Fluid should be considered unsupported.
+TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It seems fine in IE 9, but broken in IE 10. (Progress!) All basic interactions work on iPad. Fluid's localStorage implementation doesn't survive a restart, so for now Fluid should be considered unsupported.
 
 ## Authors
 
