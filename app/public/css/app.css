@@ -109,6 +109,14 @@ span.ghost {
   display: none;
 }
 
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /* Action buttons */
 
 a.action {
@@ -198,10 +206,10 @@ body.ajaxRunning #logo h1 {
   cursor: pointer;
   display: inline-block;
   float: left;
-  font-weight: bold;
+  font: bold 12px/14px Helvetica, Arial, sans-serif;
   margin: 0 3px 0 0;
   overflow-x: hidden;
-  padding: 7px 12px;
+  padding: 7px 12px 5px;
   text-overflow: ellipsis;
   white-space: nowrap;
   -webkit-transition: max-width 100ms;
