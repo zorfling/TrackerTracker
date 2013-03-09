@@ -1,0 +1,25 @@
+<div id="account-settings">
+  <h3>TeamCity Integration</h3>
+
+  <div class="form-warning">Note: this is untested in versions other than TeamCity 7.1. Story ID must be found in a branch or commit message.</div>
+
+  <div class="form">
+    <div class="form-input">
+      <label>Teamcity URL</label>
+      <input id="teamcityHostname" type="input" value="" class="textfield" tabindex="1" />
+      <div class="note">http://my.teamcity.server:8111</div>
+    </div>
+    <div class="form-input">
+      <label>TeamCity Username</label>
+      <input id="teamcityUsername" type="input" value="" class="textfield" tabindex="2" />
+    </div>
+    <div class="form-input">
+      <label>TeamCity Password</label>
+      <input id="teamcityPassword" type="password" value="" class="textfield" tabindex="3" />
+    </div>
+    <div class="form-action">
+      <a class="action" href="#" data-click-handler="TT.TeamCity.saveSettings" tabindex="4">Save Settings</a>
+      <a class="cancel" href="#" data-click-handler="TT.Dialog.close" tabindex="5">Cancel</a>
+    </div>
+  </div>
+</div>

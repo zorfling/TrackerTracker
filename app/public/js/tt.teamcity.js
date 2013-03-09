@@ -2,21 +2,40 @@ var TT = TT || {};
 TT.TeamCity = (function () {
 
   var pub = {};
+  var COOKIES = ['teamcityHostname', 'teamcityUsername', 'teamcityPassword'];
 
-  pub.settingsOK = function () {
-    return $.cookie('teamcityHostname') && $.cookie('teamcityUsername') &&
-      $.cookie('teamcityPassword');
+  pub.isConfigured = function () {
+    var configured = true;
+    $.each(COOKIES, function (index, name) {
+      if (!$.cookie(name)) {
+        configured = false;
+      }
+    });
+
+    return configured;
   };
 
   pub.getHighestNumber = function (numbers) {
     return Math.max.apply(Math, numbers);
   };
 
-  pub.getBuildStatus = function (story) {
-    if (!pub.settingsOK()) {
-      return;
-    }
+  pub.openSettings = function () {
+    TT.Dialog.open(TT.View.render('teamcitySettings'));
+    $.each(COOKIES, function (index, name) {
+      $('#' + name).val($.cookie(name));
+    });
+  };
 
+  pub.saveSettings = function () {
+    TT.Dialog.close();
+    $.each(COOKIES, function (index, name) {
+      $.cookie(name, $('#' + name).val(), { expires: 365 });
+    });
+
+    return false;
+  };
+
+  pub.getBuildStatus = function (story) {
     TT.Ajax.get('/getTeamcityBuildStatus', {
       data: {
         storyID: story.id
@@ -47,6 +66,17 @@ TT.TeamCity = (function () {
         TT.View.redrawStory(story);
       }
     });
+  };
+
+  pub.beforeStoryDetailsRender = function (event, story) {
+    if (!story.buildStatus && pub.isConfigured()) {
+      story.buildStatus = '<span class="teamcity-loading">Loading...</span>';
+      pub.getBuildStatus(story);
+    }
+  };
+
+  pub.init = function () {
+    TT.Event.bind('beforeStoryDetailsRender', pub.beforeStoryDetailsRender);
   };
 
   return pub;

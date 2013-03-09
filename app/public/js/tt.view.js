@@ -262,13 +262,9 @@ TT.View = (function () {
 
   pub.drawStoryDetails = function (storyElement) {
     var story = TT.Model.Story.get({ id: storyElement.data('id') });
+    TT.Event.trigger('beforeStoryDetailsRender', story);
 
-    if (!story.buildStatus && TT.TeamCity.settingsOK()) {
-      story.buildStatus = '<span class="teamcity-not-found">Looking...</span>';
-      TT.TeamCity.getBuildStatus(story);
-    }
-
-    var html = TT.View.render('storyDetails', story);
+    var html = pub.render('storyDetails', story);
 
     return pub.attach(html, storyElement);
   };
@@ -318,10 +314,6 @@ TT.View = (function () {
 
     $('#pivotal-username').val($.cookie('pivotalUsername'));
     $('#pivotal-username').focus(TT.UI.openPivotalUsernameAutocomplete);
-
-    $('#teamcity-hostname').val($.cookie('teamcityHostname'));
-    $('#teamcity-username').val($.cookie('teamcityUsername'));
-    $('#teamcity-password').val($.cookie('teamcityPassword'));
   };
 
   pub.message = function (str, options) {

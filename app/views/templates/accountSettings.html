@@ -1,36 +1,18 @@
 <div id="account-settings">
-  <h3>Pivotal Tracker Settings</h3>
+  <h3>Account Settings</h3>
 
   <div class="form">
     <div class="form-input">
-      <label>Pivotal Tracker API Token (<a href="https://www.pivotaltracker.com/profile" target="_blank" class="external">Found here</a>)</label>
+      <label>Tracker API Token <a href="https://www.pivotaltracker.com/profile" target="_blank" class="external">(Found here)</a></label>
       <input id="pivotal-token-input" type="input" value="" class="textfield" tabindex="1" />
     </div>
     <div class="form-input">
-      <label>Pivotal Full Name</label>
+      <label>Tracker Full Name</label>
       <input id="pivotal-username" type="input" value="" class="autocomplete textfield" tabindex="2" />
     </div>
-  </div>
-
-  <hr />
-  <h3>TeamCity Integration</h3>
-
-  <div class="form">
-    <div class="form-input">
-      <label>Teamcity URL</label>
-      <input id="teamcity-hostname" type="input" value="" class="textfield" tabindex="3" />
-    </div>
-    <div class="form-input">
-      <label>TeamCity Username</label>
-      <input id="teamcity-username" type="input" value="" class="textfield" tabindex="4" />
-    </div>
-    <div class="form-input">
-      <label>TeamCity Password</label>
-      <input id="teamcity-password" type="password" value="" class="textfield" tabindex="5" />
-    </div>
     <div class="form-action">
-      <a class="action" href="#" data-click-handler="TT.UI.saveAccountSettings" tabindex="6">Save Settings</a>
-      <a class="cancel" href="#" data-click-handler="TT.Dialog.close" tabindex="7">Cancel</a>
+      <a class="action" href="#" data-click-handler="TT.UI.saveAccountSettings" tabindex="3">Save Settings</a>
+      <a class="cancel" href="#" data-click-handler="TT.Dialog.close" tabindex="4">Cancel</a>
     </div>
   </div>
 </div>

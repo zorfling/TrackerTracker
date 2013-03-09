@@ -335,6 +335,16 @@ body.has-modal-dialog {
   text-decoration: underline;
 }
 
+/* Form Feedback */
+
+.form-warning {
+  background: url(/images/warning.png) no-repeat scroll 12px 12px #FFA;
+  box-shadow: 1px 1px 0px rgba(100, 100, 0, 0.2);
+  font: bold 13px/16px Helvetica, Arial, sans-serif;
+  margin: 0 0 20px;
+  padding: 13px 16px 13px 35px;
+}
+
 /* Nav */
 
 #nav {
@@ -1593,6 +1603,7 @@ a.tracker-project-link {
 
 /* TeamCity */
 
+span.teamcity-loading,
 span.teamcity-not-found {
   color: #aaa;
   font-weight: normal;
