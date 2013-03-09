@@ -182,6 +182,9 @@ TT.UI = (function () {
   pub.saveAccountSettings = function () {
     var pivotalToken = $('#pivotal-token-input').val();
     var pivotalUsername = $('#pivotal-username').val();
+    var teamcityHostname = $('#teamcity-hostname').val();
+    var teamcityUsername = $('#teamcity-username').val();
+    var teamcityPassword = $('#teamcity-password').val();
 
     if (!pivotalToken) {
       TT.View.message('Token is required.', { type: 'error' });
@@ -190,6 +193,9 @@ TT.UI = (function () {
 
     $.cookie('pivotalToken', pivotalToken, { expires: 365 });
     $.cookie('pivotalUsername', pivotalUsername, { expires: 365 });
+    $.cookie('teamcityHostname', teamcityHostname, { expires: 365 });
+    $.cookie('teamcityUsername', teamcityUsername, { expires: 365 });
+    $.cookie('teamcityPassword', teamcityPassword, { expires: 365 });
 
     TT.Dialog.close();
     TT.Init.init();

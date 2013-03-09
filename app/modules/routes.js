@@ -1,8 +1,12 @@
 var fs = require('fs');
 var pivotal = require('pivotal');
+var exec = require('child_process').exec;
 
 var TWO_YEARS = 2 * 365 * 24 * 60 * 60 * 1000;
 var PIVOTAL_TOKEN_COOKIE = 'pivotalToken';
+var TEAMCITY_HOSTNAME_COOKIE = 'teamcityHostname';
+var TEAMCITY_USERNAME_COOKIE = 'teamcityUsername';
+var TEAMCITY_PASSWORD_COOKIE = 'teamcityPassword';
 
 exports.index = function (req, res) {
   fs.readFile('./fingerprint', function (err, data) {
@@ -62,4 +66,22 @@ exports.moveStory = function (req, res) {
   pivotal.moveStory(req.body.projectID, req.body.storyID, moveData, function (err, results) {
     res.json(true);
   });
+};
+
+exports.getTeamcityBuildStatus = function (req, res) {
+  if (req.cookies[TEAMCITY_HOSTNAME_COOKIE] &&
+    req.cookies[TEAMCITY_USERNAME_COOKIE] &&
+    req.cookies[TEAMCITY_PASSWORD_COOKIE]) {
+
+    var command = 'curl -u ' + req.cookies[TEAMCITY_USERNAME_COOKIE] + ':' +
+      req.cookies[TEAMCITY_PASSWORD_COOKIE] + ' -X GET "' +
+      req.cookies[TEAMCITY_HOSTNAME_COOKIE] + '/searchResults.html?query=' +
+      req.query.storyID + '&popupMode=true"';
+
+    exec(command, function(err, stdout, stderr) {
+      res.send(stdout || '');
+    });
+  } else {
+    res.send('');
+  }
 };

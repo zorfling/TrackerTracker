@@ -5,6 +5,11 @@
   </div>
   <div class="detail-set">
     <div class="detail"><label>Story ID</label> <a href="{{url}}" class="external" target="_blank">{{id}}</a></div>
+    {{#buildStatus}}
+      <div class="detail">
+        <label>TeamCity</label> {{{buildStatus}}}
+      </div>
+    {{/buildStatus}}
     <div class="detail">
       <label>Requester</label>
       <span class="editable" data-click-handler="TT.UI.openStoryRequesterUpdater">{{requested_by}}</span>

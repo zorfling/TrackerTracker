@@ -35,6 +35,14 @@ em {
   font-style: italic;
 }
 
+hr {
+  display: block;
+  border: 0;
+  border-top: 1px dotted #ccc;
+  height: 1px;
+  margin: 22px 0;
+}
+
 a {
   color: #069;
   font-weight: bold;
@@ -748,6 +756,11 @@ body.has-modal-dialog {
 .story .detail {
   border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
   padding: 5px 6px 3px;
+}
+
+.story .detail a.external {
+  padding-bottom: 1px;
+  padding-top: 1px;
 }
 
 .story .detail label {
@@ -1576,4 +1589,29 @@ a.tracker-project-link {
 
 .active .project-visibility-toggle {
   background-position: 0 0;
+}
+
+/* TeamCity */
+
+span.teamcity-not-found {
+  color: #aaa;
+  font-weight: normal;
+  font-style: italic;
+  line-height: 16px;
+}
+
+a.teamcity-successful {
+  color: #219711;
+  font-weight: bold;
+  display: inline-block;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+a.teamcity-failed {
+  color: #a11;
+  font-weight: bold;
+  display: inline-block;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }

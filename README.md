@@ -17,6 +17,7 @@ Multi-project Scrum UI for [Pivotal Tracker](http://www.pivotaltracker.com).
 * Most actions are supported: update story descriptions, add notes, drag them to different columns to update their status and priority
 * Write your own custom columns and filters in a couple lines of JS
 * Assign stories to QAs
+* TeamCity integration: view build status in story detail view
 * Forecasting charts
 
 ![Screenshot](http://i.imgur.com/FK00z8H.png)
