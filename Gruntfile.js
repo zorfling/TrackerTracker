@@ -40,9 +40,6 @@ module.exports = function(grunt) {
         dest: 'app/public/js/bundle/tt.min.js'
       }
     },
-    lint: {
-      all: ['app/public/js/*.js']
-    },
     jshint: {
       options: {
         browser: true,
@@ -55,13 +52,14 @@ module.exports = function(grunt) {
         quotmark: 'single',
         undef: true,
         unused: false,
-        trailing: true
+        trailing: true,
+        globals: {
+          TT: true,
+          Hogan: true,
+          HoganTemplates: true
+        }
       },
-      globals: {
-        TT: true,
-        Hogan: true,
-        HoganTemplates: true
-      }
+      tt: ['app/public/js/*.js']
     },
     watch: {
       files: [
