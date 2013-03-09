@@ -55,7 +55,7 @@ TT.TeamCity = (function () {
             .closest('.statusText').text().indexOf('failed') === -1;
           var linkClass = successful ? 'teamcity-successful' : 'teamcity-failed';
           var url = $.cookie('teamcityHostname') +
-            '/searchResults.html?query=' + story.id;
+            '/searchResults.html?query=' + buildNumber;
 
           if (buildNumber) {
             story.buildStatus = '<a href="' + url + '" target="_blank" class="' +
