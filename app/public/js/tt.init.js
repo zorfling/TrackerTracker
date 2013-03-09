@@ -474,6 +474,15 @@ TT.Init = (function () {
     }
   };
 
+  pub.moduleInit = function () {
+    $.each(TT, function (moduleName, module) {
+      if (moduleName !== 'Init' && TT.Utils.isObject(module) &&
+        TT.Utils.isFunction(module.init)) {
+        module.init();
+      }
+    });
+  };
+
   pub.init = function () {
     if (pub.firstRun) {
       TT.View.drawPageLayout();
@@ -497,10 +506,7 @@ TT.Init = (function () {
 
     if (pub.firstRun) {
       $(window).resize(TT.View.updateColumnDimensions);
-      TT.DragAndDrop.init();
-      TT.Search.init();
-      TT.UI.init();
-      TT.Importer.init();
+      pub.moduleInit();
       pub.setUpdateInterval();
       pub.initMarked();
     }
