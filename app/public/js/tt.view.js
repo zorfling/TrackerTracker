@@ -28,9 +28,11 @@ TT.View = (function () {
     return pub.attach(pub.render('layout'), 'body');
   };
 
+  var containerWidthTimeout;
   pub.updateColumnDimensions = function () {
     var $window = $(window);
     var $columns = $('#columns .column');
+    var $container = $('#columns');
 
     if ($columns.length === 0) {
       $('#columns').width('90%');
@@ -64,7 +66,13 @@ TT.View = (function () {
     var calculatedColumnWidth = 0;
     var availableWidth = $window.width() - windowMargin;
 
-    if (emptyColumnCount > 0) {
+    if (emptyColumnCount === columnCount) {
+      $container.removeClass('not-all-empty');
+    } else {
+      $container.addClass('not-all-empty');
+    }
+
+    if (emptyColumnCount > 0 && emptyColumnCount !== columnCount) {
       // Revise available width and recalculate
       availableWidth -= (emptyColumnWidth * emptyColumnCount);
       calculatedColumnWidth = availableWidth / (columnCount - emptyColumnCount);
@@ -76,11 +84,20 @@ TT.View = (function () {
     $columns.width(finalColumnWidth);
 
     // Set column container width.
-    var containerWidth = 0;
-    $columns.each(function () {
-      containerWidth += $(this).width() + columnMargin;
-    });
-    $('#columns').width(containerWidth);
+    var times = 20;
+    clearTimeout(containerWidthTimeout);
+    function setContainerWidth() {
+      var containerWidth = 0;
+      $columns.each(function () {
+        containerWidth += $(this).width() + columnMargin;
+      });
+      $container.css({ minWidth: containerWidth });
+      if (times--) {
+        containerWidthTimeout = setTimeout(setContainerWidth, 20);
+      }
+    }
+
+    setContainerWidth();
   };
 
   pub.drawColumnListNav = function () {
