@@ -61,7 +61,7 @@ TT.View = (function () {
     // Calculate column width.
     var columnCount = $columns.length;
     var windowMargin = 14;
-    var columnMargin = 8;
+    var columnMargin = 6;
     var emptyColumnWidth = 100 + columnMargin;
     var calculatedColumnWidth = 0;
     var availableWidth = $window.width() - windowMargin;
