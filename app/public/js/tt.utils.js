@@ -183,7 +183,7 @@ TT.Utils = (function () {
 
   pub.marked = function (text) {
     return pub.isString(text) && window.marked ? window.marked(text) : text;
-  }
+  };
 
   pub.removeFromArray = function (arr, val) {
     $.each(arr, function (index, item) {

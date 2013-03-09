@@ -449,7 +449,7 @@ TT.Model = (function () {
     if (story.labels) {
       $.each(story.labels, function (index, label) {
         if (label.indexOf(prefix) === 0) {
-          data = label.match(new RegExp('\\[' + key + '\=(.*)\]'))[1];
+          data = label.replace(prefix, '').replace(/\]$/, '');
         }
       });
     }
