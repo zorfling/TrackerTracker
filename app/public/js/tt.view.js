@@ -38,16 +38,49 @@ TT.View = (function () {
       return false;
     }
 
-    var height_offset = 26;
-    var height = $window.height() - ($('.column-bucket').offset().top + height_offset);
+    // Calculate column height.
+    var heightOffset = 26;
+    var height = $window.height() - ($('.column-bucket').offset().top + heightOffset);
     $('.column-bucket').height(height);
 
-    var column_count = $columns.length;
-    var width_offset = 18;
-    var width = Math.max(pub.MIN_COLUMN_WIDTH, Math.round(($window.width() - width_offset - (column_count * 8)) / column_count));
-    $columns.width(width);
+    // Tally empty columns.
+    var emptyColumnCount = 0;
+    $columns.each(function () {
+      var $column = $(this);
+      var name = $column.data('name');
+      if ($column.find('.story').length === 0 && name !== 'Icebox' && name !== 'Labels') {
+        $column.addClass('empty-column');
+        emptyColumnCount++;
+      } else {
+        $column.removeClass('empty-column');
+      }
+    });
 
-    $('#columns').width((width + 8) * column_count);
+    // Calculate column width.
+    var columnCount = $columns.length;
+    var windowMargin = 14;
+    var columnMargin = 8;
+    var emptyColumnWidth = 100 + columnMargin;
+    var calculatedColumnWidth = 0;
+    var availableWidth = $window.width() - windowMargin;
+
+    if (emptyColumnCount > 0) {
+      // Revise available width and recalculate
+      availableWidth -= (emptyColumnWidth * emptyColumnCount);
+      calculatedColumnWidth = availableWidth / (columnCount - emptyColumnCount);
+    } else {
+      calculatedColumnWidth = availableWidth / columnCount;
+    }
+
+    var finalColumnWidth = Math.max(pub.MIN_COLUMN_WIDTH, calculatedColumnWidth - columnMargin);
+    $columns.width(finalColumnWidth);
+
+    // Set column container width.
+    var containerWidth = 0;
+    $columns.each(function () {
+      containerWidth += $(this).width() + columnMargin;
+    });
+    $('#columns').width(containerWidth);
   };
 
   pub.drawColumnListNav = function () {

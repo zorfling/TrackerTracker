@@ -590,6 +590,11 @@ body.has-modal-dialog {
   min-width: 200px;
 }
 
+.empty-column {
+  width: 100px !important;
+  min-width: 100px;
+}
+
 .column .column-title {
   background: #333;
   background: -webkit-linear-gradient(#444, #222);
