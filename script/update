@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -x
+
+# TrackerTracker Auto-update
+# Tested on Ubuntu 12.04
+
+#######################################################################
+
+# Scheduling
+
+# To run every hour, add the following to your crontab:
+## m  h  d  m  w  command
+#  0  *  *  *  *  /path/to/trackertracker/script/update >/dev/null 2>&1
+
+#######################################################################
+
+# Configuration
+
+# Which branch to stay rebased on. Defaults to "master":
+branch="master"
+
+# Where to write forever logs. Defaults to "/var/log":
+log_dir="/var/log"
+
+# Binary locations. Run `which git` etc and update accordingly:
+git_bin="/usr/bin/git"
+npm_bin="/usr/bin/npm"
+grunt_bin="/usr/bin/grunt"
+forever_bin="/usr/bin/forever"
+
+#######################################################################
+
+# We want to be one directory up from this file.
+basedir="`dirname $0`/../"
+
+pushd "$basedir" > /dev/null 2>&1
+
+# Pull down latest changes from Github.
+$git_bin fetch
+$git_bin rebase origin/$branch
+
+# Install new NPM packages.
+$npm_bin install
+
+# Bundle static assets.
+$grunt_bin
+
+# I don't trust forever, so manually restart.
+$forever_bin stop app/app.js
+$forever_bin start --watch --append -l $log_dir/tt.forever.log -o \
+    $log_dir/tt.stdout.log -e $log_dir/tt.stderr.log app/app.js
+
+popd > /dev/null 2>&1
