@@ -1174,7 +1174,7 @@ input.textfield.autocomplete {
 }
 
 .epics {
-  padding: 20px;
+  padding: 14px 16px;
 }
 
 .epics h2 {
@@ -1183,7 +1183,7 @@ input.textfield.autocomplete {
 }
 
 .epics .row {
-  margin: 5px 0;
+  margin: 4px 0;
 }
 
 .epics .row.inactive {
@@ -1216,16 +1216,16 @@ input.textfield.autocomplete {
 }
 
 .epics .epic-scale {
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 1px;
   cursor: pointer;
   float: left;
-  margin: 1px 0 0 3px;
+  margin: 3px 0 0 3px;
   padding: 2px;
 }
 
 .epics .epic-scale:hover {
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.35);
 }
 
 .epic {
@@ -1271,27 +1271,27 @@ input.textfield.autocomplete {
 }
 
 .epic-scale .unstarted {
-  background: #777;
+  background: #e4e4e4;
 }
 
 .epic-scale .started {
-  background: #f0e93e;
+  background: #c5c96c;
 }
 
 .epic-scale .finished {
-  background: #f0be66;
-}
-
-.epic-scale .delivered {
-  background: #94d126;
+  background: #c5c96c;
 }
 
 .epic-scale .rejected {
-  background: #a00;
+  background: #c5c96c;
+}
+
+.epic-scale .delivered {
+  background: #4ba311;
 }
 
 .epic-scale .accepted {
-  background: #01cf01;
+  background: #4ba311;
 }
 
 /* Tooltip */
