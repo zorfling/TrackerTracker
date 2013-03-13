@@ -1,9 +1,14 @@
 {
   "name": "TrackerTracker",
   "version": "0.0.1",
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.2.x"
+  },
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node app/app",
+    "postinstall": "./node_modules/grunt-cli/bin/grunt"
   },
   "dependencies": {
     "express": "3.0.4",
