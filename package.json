@@ -7,18 +7,18 @@
   },
   "dependencies": {
     "express": "3.0.4",
-    "hogan.js": "*",
-    "jade": "*",
+    "hogan.js": "2.0.0",
+    "jade": "0.28.1",
     "jira": "git://github.com/intentmedia/node-jira.git#master",
     "pivotal": "git://github.com/Wizcorp/node-pivotal.git#master",
-    "redis": "*",
-    "request": "*",
-    "grunt": "~0.4.0",
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-concat": "*",
+    "redis": "0.8.2",
+    "request": "2.14.0",
+    "grunt": "0.4.0",
+    "grunt-contrib-jshint": "0.1.1",
+    "grunt-contrib-concat": "0.1.2",
     "grunt-contrib-uglify": "0.1.1",
-    "grunt-contrib-watch": "*",
-    "grunt-fingerprint": "~0.1.0",
-    "marked": "*"
+    "grunt-contrib-watch": "0.2.0",
+    "grunt-fingerprint": "0.1.0",
+    "marked": "0.2.8"
   }
 }
