@@ -1217,11 +1217,11 @@ input.textfield.autocomplete {
 
 .epics .epic-scale {
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 1px;
+  border-radius: 2px;
   cursor: pointer;
   float: left;
-  margin: 1px 0 0 3px;
-  padding: 2px;
+  margin: 1px 0 0 2px;
+  padding: 1px;
 }
 
 .epics .epic-scale:hover {
@@ -1229,8 +1229,9 @@ input.textfield.autocomplete {
 }
 
 .epic {
+  box-shadow: 0 7px 8px -5px rgba(0, 0, 0, 0.1) inset;
   float: left;
-  height: 11px;
+  height: 13px;
   width: 0;
 }
 
@@ -1245,53 +1246,53 @@ input.textfield.autocomplete {
 }
 
 .epic-detail-started {
-  color: #f0e93e;
+  color: #c9d100;
 }
 
 .epic-detail-finished {
-  color: #f0be66;
-}
-
-.epic-detail-delivered {
-  color: #c4e738;
+  color: #c9d100;
 }
 
 .epic-detail-rejected {
-  color: #fbb;
+  color: #c9d100;
+}
+
+.epic-detail-delivered {
+  color: #c9d100;
 }
 
 .epic-detail-accepted {
-  color: #01cf01;
+  color: #3eb606;
 }
 
 /* Epic chart */
 
 .epic-scale .unscheduled {
-  background: #ade9f8;
+  background: #92ddf0;
 }
 
 .epic-scale .unstarted {
-  background: #777;
+  background: #e4e4e4;
 }
 
 .epic-scale .started {
-  background: #f0e93e;
+  background: #eccd2a;
 }
 
 .epic-scale .finished {
-  background: #f0be66;
-}
-
-.epic-scale .delivered {
-  background: #94d126;
+  background: #eccd2a;
 }
 
 .epic-scale .rejected {
-  background: #a00;
+  background: #eccd2a;
+}
+
+.epic-scale .delivered {
+  background: #eccd2a;
 }
 
 .epic-scale .accepted {
-  background: #01cf01;
+  background: #2ba50d;
 }
 
 /* Tooltip */
