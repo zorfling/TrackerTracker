@@ -631,6 +631,35 @@ TT.UI = (function () {
         html: TT.View.render('epicDetails', data)
       });
     }
+
+    return false;
+  };
+
+  pub.storyProjectTooltip = function (e) {
+    if (!TT.Tooltip.isActive()) {
+      TT.Tooltip.open({
+        target: this,
+        delay: 300,
+        html: TT.View.render('tooltipContents', {
+          title: $(this).data('project-name')
+        })
+      });
+    }
+
+    return false;
+  };
+
+  pub.storyOwnerTooltip = function (e) {
+    if (!TT.Tooltip.isActive()) {
+      TT.Tooltip.open({
+        target: this,
+        delay: 300,
+        html: TT.View.render('tooltipContents', {
+          title: $(this).data('username')
+        })
+      });
+    }
+
     return false;
   };
 

@@ -305,7 +305,8 @@ TT.Model = (function () {
     var user = pub.User.get({ name: story.owned_by }) || {};
 
     story.initials = user.initials;
-    story.project_name = TT.Utils.generateInitials(project.name);
+    story.project_name = project.name;
+    story.project_initials = TT.Utils.generateInitials(project.name);
     story.project_classname = TT.Utils.cssify(project.name);
 
     pub.Label.addStoryLabelsToEpics(story);
