@@ -22,8 +22,6 @@ TT.Tooltip = (function () {
     self.tooltip.find('.tooltip-arrow').css({
       left: (self.tooltip.outerWidth() / 2) - 9
     });
-
-    self.tooltip.hide().fadeIn(60);
   }
 
   function setClosingBoundaries() {
@@ -34,7 +32,7 @@ TT.Tooltip = (function () {
     $('body').bind('mousemove.Tooltip', function (e) {
       if (e.pageX < bounds.left || e.pageX > bounds.right || e.pageY < bounds.top || e.pageY > bounds.bottom) {
         $('body').unbind('.Tooltip');
-        self.tooltip.fadeOut(100, function () {
+        self.tooltip.fadeOut(80, function () {
           self.tooltip.remove();
           self.active = false;
           self.tooltip = null;
@@ -51,10 +49,11 @@ TT.Tooltip = (function () {
     if (!self.active) {
       self.active = true;
       self.target = $(options.target);
-      self.tooltip = TT.View.attach(TT.View.render('tooltip', { html: options.html }), 'body');
-
-      setPosition();
-      setClosingBoundaries();
+      setTimeout(function () {
+        self.tooltip = TT.View.attach(TT.View.render('tooltip', { html: options.html }), 'body');
+        setPosition();
+        setClosingBoundaries();
+      }, options.delay || 0);
     }
   };
 
