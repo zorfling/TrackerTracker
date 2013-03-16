@@ -34,7 +34,7 @@ This is beta software, use at your own risk. If you have any issues or feature r
 
 A demo install is up and running at [http://trackertracker.glomerate.com](http://trackertracker.glomerate.com). API tokens are not logged by the server. The only thing exposed in the server logs are project IDs, which are useless without proper access to them.
 
-## Installation
+## Server Installation
 
 ### Two Minute Heroku Install
 
@@ -63,7 +63,7 @@ grunt
 forever start --watch -l ~/forever.log -o ~/out.log -e ~/err.log app/app.js
 ```
 
-### OS X Developer Install
+## OS X Developer Installation
 
 1. Install **Homebrew**: [http://mxcl.github.com/homebrew/](http://mxcl.github.com/homebrew/)
 2. Install **Redis**: `brew install redis`
@@ -84,40 +84,42 @@ redis-server
 In terminal window #2, run grunt once to bundle your static files, and then start node:
 
 ```sh
-cd TrackerTracker
 grunt
-cd app
-node app
+node app/app
 ```
 
-#### Running the Jasmine test suite manually
-
-Assumes you have Chrome, Safari, and Firefox installed:
+#### Running the Jasmine test suite once
 
 ```sh
-cd TrackerTracker/test
-testacular run
+testacular start --single-run --browsers Safari
 ```
 
-#### Development
+Single-run benchmarks (includes starting Testacular, capturing the browser, running the tests, and killing processes):
 
-1. Have Testacular auto-run on file changes
+- PhantomJS 1.8.1: 12.3 seconds
+- Firefox 17: 4.1 seconds
+- Chrome 26: 3.4 seconds
+- Safari 6: 2.9 seconds
+
+#### Development Workflow
+
+You should have Grunt and Testacular running in the background while coding. If you're not, you're missing out on instant lint/test feedback and a headache-free build process. Here's how to do that:
+
+In terminal window #1, have Testacular auto-run on file changes:
 
 ```sh
-cd TrackerTracker/test
 testacular start
 ```
 
-2. Have Grunt auto-run (jshint, concat, hogan compile) on file changes
+In terminal window #2, have Grunt auto-run (jshint, concat, hogan compile) on file changes:
 
 ```sh
-cd TrackerTracker
 grunt watch
 ```
 
 ## Browser Support
 
-TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It seems fine in IE 9, but broken in IE 10. (Progress!) All basic interactions work on iPad. Fluid's localStorage implementation doesn't survive a restart, so for now Fluid should be considered unsupported.
+TrackerTracker has been tested and built for Chrome, Safari, and Firefox. It seems fine in IE 9, but broken in IE 10. (Progress!) All basic interactions work on iPad. Fluid's localStorage implementation doesn't survive a restart, so for now Fluid should be considered unsupported.
 
 ## Contributors
 
