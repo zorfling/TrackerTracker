@@ -36,6 +36,16 @@ A demo install is up and running at [http://trackertracker.glomerate.com](http:/
 
 ## Installation
 
+### Two Minute Heroku Install
+
+Assuming you have a verified [Heroku account](http://www.heroku.com/) and [Heroku toolbelt](https://toolbelt.herokuapp.com/) installed:
+
+```sh
+heroku apps:create [optional app name]
+heroku addons:add rediscloud
+git push heroku [local branch:]master
+```
+
 ### Ubuntu Server Install (Tested on 12.04)
 
 ```sh
@@ -107,15 +117,14 @@ grunt watch
 
 TrackerTracker is tested and built for Chrome, Safari, and Firefox stable. It seems fine in IE 9, but broken in IE 10. (Progress!) All basic interactions work on iPad. Fluid's localStorage implementation doesn't survive a restart, so for now Fluid should be considered unsupported.
 
-## Authors
+## Contributors
 
 * Andrew Childs ([@andrewchilds](http://twitter.com/andrewchilds))
 * Adrian Cretu-Barbul ([@adriancb](http://twitter.com/adriancb))
 * Kurt Schrader ([@kurt](http://twitter.com/kurt))
 * John Whitfield ([@jkwhitfield](http://twitter.com/jkwhitfield))
+* James Cartledge ([jcartledge](https://github.com/jcartledge))
 
 ## License
 
-Copyright 2013 Andrew Childs
-
-Licensed under the MIT License.
+MIT License. &copy; 2013 Andrew Childs
