@@ -41,6 +41,8 @@ A demo install is up and running at [http://trackertracker.glomerate.com](http:/
 Assuming you have a verified [Heroku account](http://www.heroku.com/) and [Heroku toolbelt](https://toolbelt.herokuapp.com/) installed:
 
 ```sh
+git clone git@github.com:intentmedia/TrackerTracker.git
+cd TrackerTracker
 heroku apps:create [optional app name]
 heroku addons:add rediscloud
 git push heroku [local branch:]master
