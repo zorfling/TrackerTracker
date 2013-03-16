@@ -666,7 +666,14 @@ TT.UI = (function () {
   pub.init = function () {
     var timeoutID;
     $('body').click(function (e) {
-      var target = $(e.target).closest('[data-click-handler]');
+      var target = $(e.target);
+      // Handle links in textareas
+      if (target.is('a') && target.attr('href') !== '#' &&
+        !target.data('click-handler')) {
+        return;
+      }
+
+      target = target.closest('[data-click-handler]');
       var handler = target.data('click-handler');
       if (handler) {
         handler = TT.Utils.strToFunction(handler);
