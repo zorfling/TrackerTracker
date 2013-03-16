@@ -458,7 +458,7 @@ TT.Init = (function () {
   pub.setUpdateInterval = function () {
     setInterval(function () {
       if ($.cookie('pivotalToken')) {
-        pub.requestProjectsAndIterations();
+        pub.requestProjectsAndIterations(true);
       }
     }, 1000 * 60 * 5);
   };
