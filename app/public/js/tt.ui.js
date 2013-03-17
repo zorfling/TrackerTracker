@@ -117,7 +117,8 @@ TT.UI = (function () {
       name: name,
       type: 'user',
       fn: function (story) {
-        return story.owned_by === name || story.requested_by === name;
+        return story.owned_by === name || story.requested_by === name ||
+          TT.Model.Story.hasTag(story, '[pair=' + name.toLowerCase() + ']');
       }
     });
     TT.View.drawStories();
