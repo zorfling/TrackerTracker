@@ -79,17 +79,16 @@ TT.UI = (function () {
   };
 
   pub.toggleStory = function () {
-    var story = $(this).closest('.story').toggleClass('expanded-story');
-    var id = story.data('id');
+    var element = $(this).closest('.story').toggleClass('expanded-story');
+    var story = getStoryFromContext(this);
 
-    if (story.hasClass('expanded-story')) {
-      TT.View.drawStoryDetails(story);
-      TT.Model.Story.update({ id: story.data('id') }, { expanded: true });
+    if (element.hasClass('expanded-story')) {
+      TT.View.drawStoryDetails(element);
+      TT.Model.Story.update({ id: story.id }, { expanded: true });
     } else {
-      TT.Model.Story.update({ id: story.data('id') }, { expanded: false });
-      story.find('.details').remove();
+      TT.Model.Story.update({ id: story.id }, { expanded: false });
       // TODO: Clean this up
-      TT.Utils.updateStoryState(id, {
+      TT.Utils.updateStoryState(story.id, {
         name: null,
         nameHeight: null,
         description: null,
@@ -97,6 +96,7 @@ TT.UI = (function () {
         note: null,
         noteHeight: null
       });
+      TT.View.redrawStory(story);
     }
 
     return false;
@@ -273,7 +273,13 @@ TT.UI = (function () {
       return items;
     };
 
-    return openStoryUpdater(this, { getItems: getItems, key: 'requested_by' });
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      key: 'requested_by',
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-requester');
+      }
+    });
   };
 
   pub.openStoryOwnerUpdater = function () {
@@ -283,7 +289,7 @@ TT.UI = (function () {
       var items = [];
 
       if (story.current_state === 'unscheduled' || story.current_state === 'unstarted') {
-        items[items.length] = { name: '<em>none</em>', value: '' };
+        items[items.length] = { name: '<em>none</em>', value: 'none' };
       }
 
       $.each(users, function (i, user) {
@@ -293,7 +299,55 @@ TT.UI = (function () {
       return items;
     };
 
-    return openStoryUpdater(this, { getItems: getItems, key: 'owned_by' });
+    var onBeforeUpdate = function (update) {
+      if (update.owned_by === 'none') {
+        update.initials = '';
+      } else {
+        var user = TT.Model.User.get({ name: update.owned_by }) || {};
+        update.initials = user.initials;
+      }
+
+      return update;
+    };
+
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      key: 'owned_by',
+      onBeforeUpdate: onBeforeUpdate,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-owner');
+      }
+    });
+  };
+
+  pub.openStoryPairUpdater = function () {
+    var story = getStoryFromContext(this);
+
+    var getItems = function (story) {
+      var project = TT.Model.Project.get({ id: story.project_id });
+      var users = TT.Utils.normalizePivotalArray(project.memberships.membership);
+      var items = [
+        { name: '<em>none</em>', value: 'none' }
+      ];
+
+      $.each(users, function (i, user) {
+        if (user.person.name !== story.owned_by) {
+          items[items.length] = { name: user.person.name, value: user.person.name };
+        }
+      });
+
+      return items;
+    };
+
+    var onApply = function (name) {
+      TT.Model.Story.addPair(story, name);
+      pub.setStoryUpdatingState(story.id, '.story-pair');
+    };
+
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      onApply: onApply
+    });
   };
 
   pub.openStoryQAUpdater = function () {
@@ -303,7 +357,7 @@ TT.UI = (function () {
       var project = TT.Model.Project.get({ id: story.project_id });
       var users = TT.Utils.normalizePivotalArray(project.memberships.membership);
       var items = [
-        { name: '<em>none</em>', value: '' }
+        { name: '<em>none</em>', value: 'none' }
       ];
 
       $.each(users, function (i, user) {
@@ -314,10 +368,14 @@ TT.UI = (function () {
     };
 
     var onApply = function (name) {
-      return TT.Model.Story.addQA(story, name);
+      TT.Model.Story.addQA(story, name);
+      pub.setStoryUpdatingState(story.id, '.story-qa');
     };
 
-    return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      onApply: onApply
+    });
   };
 
   pub.openStoryPointsUpdater = function () {
@@ -348,7 +406,10 @@ TT.UI = (function () {
       getItems: getItems,
       key: 'estimate',
       width: 100,
-      onBeforeUpdate: onBeforeUpdate
+      onBeforeUpdate: onBeforeUpdate,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-points');
+      }
     });
   };
 
@@ -368,7 +429,10 @@ TT.UI = (function () {
     return openStoryUpdater(this, {
       getItems: getItems,
       key: 'current_state',
-      width: 120
+      width: 120,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-state');
+      }
     });
   };
 
@@ -385,8 +449,15 @@ TT.UI = (function () {
     return openStoryUpdater(this, {
       getItems: getItems,
       key: 'story_type',
-      width: 120
+      width: 120,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-type');
+      }
     });
+  };
+
+  pub.setStoryUpdatingState = function (id, selector) {
+    $('.story-' + id + ' ' + selector).closest('.detail').addClass('is-updating');
   };
 
   function openStoryUpdater(context, options) {
@@ -400,12 +471,18 @@ TT.UI = (function () {
       target: context,
       onApply: options.onApply || function (value) {
         var update = {};
-        update[options.key] = value;
-        TT.Model.Story.serverSave(story, update, TT.View.drawStories);
+        update[options.key] = (value === 'none') ? null : value;
+        TT.Model.Story.serverSave(story, update, function () {
+          TT.View.redrawStory(story);
+        });
         if (options.onBeforeUpdate) {
           update = options.onBeforeUpdate(update);
         }
-        TT.Model.Story.update(story, update);
+        TT.Model.Story.update({ id: story.id }, update);
+        TT.View.redrawStory(story);
+        if (options.onAfterUpdate) {
+          options.onAfterUpdate(story.id);
+        }
       }
     });
 
