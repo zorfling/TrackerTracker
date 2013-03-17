@@ -241,6 +241,12 @@ TT.Init = (function () {
           return TT.Model.Story.hasTag(story, '[qa=' + $.cookie('pivotalUsername').toLowerCase() + ']');
         }
       });
+    } else {
+      TT.Model.Filter.update({ name: 'QAed by Me' }, {
+        fn: function (story) {
+          return TT.Model.Story.hasTag(story, '[qa=' + $.cookie('pivotalUsername').toLowerCase() + ']');
+        }
+      });
     }
 
     if (TT.Model.Filter.isEmpty({ name: 'Current Iteration' })) {
