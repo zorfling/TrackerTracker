@@ -781,6 +781,11 @@ body.has-modal-dialog {
   padding: 5px 6px 3px;
 }
 
+.story .detail.is-updating {
+  background: url(/images/loading-white.gif) no-repeat scroll 5px 5px transparent;
+  opacity: 0.5;
+}
+
 .story .detail a.external {
   padding-bottom: 1px;
   padding-top: 1px;

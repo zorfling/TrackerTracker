@@ -273,7 +273,13 @@ TT.UI = (function () {
       return items;
     };
 
-    return openStoryUpdater(this, { getItems: getItems, key: 'requested_by' });
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      key: 'requested_by',
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-requester');
+      }
+    });
   };
 
   pub.openStoryOwnerUpdater = function () {
@@ -307,7 +313,10 @@ TT.UI = (function () {
     return openStoryUpdater(this, {
       getItems: getItems,
       key: 'owned_by',
-      onBeforeUpdate: onBeforeUpdate
+      onBeforeUpdate: onBeforeUpdate,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-owner');
+      }
     });
   };
 
@@ -331,10 +340,14 @@ TT.UI = (function () {
     };
 
     var onApply = function (name) {
-      return TT.Model.Story.addPair(story, name);
+      TT.Model.Story.addPair(story, name);
+      pub.setStoryUpdatingState(story.id, '.story-pair');
     };
 
-    return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      onApply: onApply
+    });
   };
 
   pub.openStoryQAUpdater = function () {
@@ -355,10 +368,14 @@ TT.UI = (function () {
     };
 
     var onApply = function (name) {
-      return TT.Model.Story.addQA(story, name);
+      TT.Model.Story.addQA(story, name);
+      pub.setStoryUpdatingState(story.id, '.story-qa');
     };
 
-    return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      onApply: onApply
+    });
   };
 
   pub.openStoryPointsUpdater = function () {
@@ -389,7 +406,10 @@ TT.UI = (function () {
       getItems: getItems,
       key: 'estimate',
       width: 100,
-      onBeforeUpdate: onBeforeUpdate
+      onBeforeUpdate: onBeforeUpdate,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-points');
+      }
     });
   };
 
@@ -409,7 +429,10 @@ TT.UI = (function () {
     return openStoryUpdater(this, {
       getItems: getItems,
       key: 'current_state',
-      width: 120
+      width: 120,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-state');
+      }
     });
   };
 
@@ -426,8 +449,15 @@ TT.UI = (function () {
     return openStoryUpdater(this, {
       getItems: getItems,
       key: 'story_type',
-      width: 120
+      width: 120,
+      onAfterUpdate: function (id) {
+        pub.setStoryUpdatingState(id, '.story-type');
+      }
     });
+  };
+
+  pub.setStoryUpdatingState = function (id, selector) {
+    $('.story-' + id + ' ' + selector).closest('.detail').addClass('is-updating');
   };
 
   function openStoryUpdater(context, options) {
@@ -442,12 +472,17 @@ TT.UI = (function () {
       onApply: options.onApply || function (value) {
         var update = {};
         update[options.key] = (value === 'none') ? null : value;
-        TT.Model.Story.serverSave(story, update, TT.View.drawStories);
+        TT.Model.Story.serverSave(story, update, function () {
+          TT.View.redrawStory(story);
+        });
         if (options.onBeforeUpdate) {
           update = options.onBeforeUpdate(update);
         }
         TT.Model.Story.update({ id: story.id }, update);
         TT.View.redrawStory(story);
+        if (options.onAfterUpdate) {
+          options.onAfterUpdate(story.id);
+        }
       }
     });
 

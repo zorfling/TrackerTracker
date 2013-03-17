@@ -487,8 +487,10 @@ TT.Model = (function () {
     story = pub.Story.decorateStoryWithMetadata(story);
 
     pub.Story.update({ id: story.id }, update);
-    pub.Story.serverSave(story, update, TT.View.drawStories);
-    TT.View.drawStories();
+    pub.Story.serverSave(story, update, function () {
+      TT.View.redrawStory(story);
+    });
+    TT.View.redrawStory(story);
   };
 
   pub.Story.addQA = function (story, qa) {
