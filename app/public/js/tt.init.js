@@ -204,7 +204,15 @@ TT.Init = (function () {
         sticky: true,
         pure: true,
         fn: function (story) {
-          return story.owned_by === $.cookie('pivotalUsername');
+          return story.owned_by === $.cookie('pivotalUsername') ||
+            TT.Model.Story.hasTag(story, '[pair=' + $.cookie('pivotalUsername').toLowerCase() + ']');
+        }
+      });
+    } else {
+      TT.Model.Filter.update({ name: 'Owned by Me' }, {
+        fn: function (story) {
+          return story.owned_by === $.cookie('pivotalUsername') ||
+            TT.Model.Story.hasTag(story, '[pair=' + $.cookie('pivotalUsername').toLowerCase() + ']');
         }
       });
     }

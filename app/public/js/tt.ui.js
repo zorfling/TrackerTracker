@@ -79,17 +79,16 @@ TT.UI = (function () {
   };
 
   pub.toggleStory = function () {
-    var story = $(this).closest('.story').toggleClass('expanded-story');
-    var id = story.data('id');
+    var element = $(this).closest('.story').toggleClass('expanded-story');
+    var story = getStoryFromContext(this);
 
-    if (story.hasClass('expanded-story')) {
-      TT.View.drawStoryDetails(story);
-      TT.Model.Story.update({ id: story.data('id') }, { expanded: true });
+    if (element.hasClass('expanded-story')) {
+      TT.View.drawStoryDetails(element);
+      TT.Model.Story.update({ id: story.id }, { expanded: true });
     } else {
-      TT.Model.Story.update({ id: story.data('id') }, { expanded: false });
-      story.find('.details').remove();
+      TT.Model.Story.update({ id: story.id }, { expanded: false });
       // TODO: Clean this up
-      TT.Utils.updateStoryState(id, {
+      TT.Utils.updateStoryState(story.id, {
         name: null,
         nameHeight: null,
         description: null,
@@ -97,6 +96,7 @@ TT.UI = (function () {
         note: null,
         noteHeight: null
       });
+      TT.View.redrawStory(story);
     }
 
     return false;
@@ -283,7 +283,7 @@ TT.UI = (function () {
       var items = [];
 
       if (story.current_state === 'unscheduled' || story.current_state === 'unstarted') {
-        items[items.length] = { name: '<em>none</em>', value: '' };
+        items[items.length] = { name: '<em>none</em>', value: 'none' };
       }
 
       $.each(users, function (i, user) {
@@ -293,7 +293,48 @@ TT.UI = (function () {
       return items;
     };
 
-    return openStoryUpdater(this, { getItems: getItems, key: 'owned_by' });
+    var onBeforeUpdate = function (update) {
+      if (update.owned_by === 'none') {
+        update.initials = '';
+      } else {
+        var user = TT.Model.User.get({ name: update.owned_by }) || {};
+        update.initials = user.initials;
+      }
+
+      return update;
+    };
+
+    return openStoryUpdater(this, {
+      getItems: getItems,
+      key: 'owned_by',
+      onBeforeUpdate: onBeforeUpdate
+    });
+  };
+
+  pub.openStoryPairUpdater = function () {
+    var story = getStoryFromContext(this);
+
+    var getItems = function (story) {
+      var project = TT.Model.Project.get({ id: story.project_id });
+      var users = TT.Utils.normalizePivotalArray(project.memberships.membership);
+      var items = [
+        { name: '<em>none</em>', value: 'none' }
+      ];
+
+      $.each(users, function (i, user) {
+        if (user.person.name !== story.owned_by) {
+          items[items.length] = { name: user.person.name, value: user.person.name };
+        }
+      });
+
+      return items;
+    };
+
+    var onApply = function (name) {
+      return TT.Model.Story.addPair(story, name);
+    };
+
+    return openStoryUpdater(this, { getItems: getItems, onApply: onApply });
   };
 
   pub.openStoryQAUpdater = function () {
@@ -303,7 +344,7 @@ TT.UI = (function () {
       var project = TT.Model.Project.get({ id: story.project_id });
       var users = TT.Utils.normalizePivotalArray(project.memberships.membership);
       var items = [
-        { name: '<em>none</em>', value: '' }
+        { name: '<em>none</em>', value: 'none' }
       ];
 
       $.each(users, function (i, user) {
@@ -400,12 +441,13 @@ TT.UI = (function () {
       target: context,
       onApply: options.onApply || function (value) {
         var update = {};
-        update[options.key] = value;
+        update[options.key] = (value === 'none') ? null : value;
         TT.Model.Story.serverSave(story, update, TT.View.drawStories);
         if (options.onBeforeUpdate) {
           update = options.onBeforeUpdate(update);
         }
-        TT.Model.Story.update(story, update);
+        TT.Model.Story.update({ id: story.id }, update);
+        TT.View.redrawStory(story);
       }
     });
 

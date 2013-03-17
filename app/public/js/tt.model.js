@@ -293,13 +293,7 @@ TT.Model = (function () {
     story.labels = TT.Utils.isString(story.labels) ? story.labels.indexOf(',') !== -1 ? story.labels.split(',') : [story.labels] : [];
     story.notes = compileNotes(story);
 
-    var qa = pub.Story.getMetadata(story, 'qa');
-    qa = pub.User.get(function (user) {
-      return user.name.toLowerCase() === qa;
-    });
-    if (qa) {
-      story.qa = qa.name;
-    }
+    story = pub.Story.decorateStoryWithMetadata(story);
 
     var project = pub.Project.get({ id: story.project_id }) || {};
     var user = pub.User.get({ name: story.owned_by }) || {};
@@ -310,6 +304,27 @@ TT.Model = (function () {
     story.project_classname = TT.Utils.cssify(project.name);
 
     pub.Label.addStoryLabelsToEpics(story);
+
+    return story;
+  };
+
+  pub.Story.decorateStoryWithMetadata = function (story) {
+    var qa = pub.Story.getMetadata(story, 'qa');
+    qa = pub.User.get(function (user) {
+      return user.name.toLowerCase() === qa;
+    });
+    if (qa) {
+      story.qa = qa.name;
+    }
+
+    var pair = pub.Story.getMetadata(story, 'pair');
+    pair = pub.User.get(function (user) {
+      return user.name.toLowerCase() === pair;
+    });
+    if (pair) {
+      story.pair = pair.name;
+      story.pair_initials = pair.initials;
+    }
 
     return story;
   };
@@ -458,18 +473,30 @@ TT.Model = (function () {
     return data;
   };
 
-  pub.Story.addQA = function (story, qa) {
-    story.qa = qa;
-    if (qa) {
-      story = pub.Story.addMetadata(story, { qa: qa });
+  pub.Story.saveMetadata = function (story, key, val) {
+    val = val === 'none' ? null : val;
+    story[key] = val;
+    if (val) {
+      var metadata = {};
+      metadata[key] = val;
+      story = pub.Story.addMetadata(story, metadata);
     } else {
-      story = pub.Story.removeMetadata(story, 'qa');
+      story = pub.Story.removeMetadata(story, key);
     }
     var update = { labels: story.labels };
+    story = pub.Story.decorateStoryWithMetadata(story);
 
-    pub.Story.update(story, update);
+    pub.Story.update({ id: story.id }, update);
     pub.Story.serverSave(story, update, TT.View.drawStories);
     TT.View.drawStories();
+  };
+
+  pub.Story.addQA = function (story, qa) {
+    pub.Story.saveMetadata(story, 'qa', qa);
+  };
+
+  pub.Story.addPair = function (story, pair) {
+    pub.Story.saveMetadata(story, 'pair', pair);
   };
 
   pub.Story.serverSave = function (story, data, callback) {

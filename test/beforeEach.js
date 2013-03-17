@@ -44,6 +44,15 @@ TT.Mock = (function () {
                   initials: "DVL"
                 },
                 role: "Owner"
+              },
+              {
+                id: "102",
+                person: {
+                  email: "nobody@example.com",
+                  name: "QA Engineer",
+                  initials: "QA"
+                },
+                role: "Owner"
               }
             ]
           }
