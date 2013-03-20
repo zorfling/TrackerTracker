@@ -265,21 +265,21 @@ TT.View = (function () {
     if (story.expanded) {
       element.toggleClass('expanded-story');
       pub.drawStoryDetails(element);
-    }
 
-    var state = TT.Utils.getStoryState(story.id);
-    // TODO: clean this up
-    if (state.description) {
-      element.find('.description').click();
-      element.find('.description-container textarea').val(state.description).height(state.descriptionHeight).focus();
-    }
-    if (state.note) {
-      element.find('.add-note').click();
-      element.find('.notes textarea').val(state.note).height(state.noteHeight).focus();
-    }
-    if (state.name) {
-      element.find('.title').click();
-      element.find('.title-container textarea').val(state.name).height(state.nameHeight).focus();
+      var state = TT.Utils.getStoryState(story.id);
+      // TODO: clean this up
+      if (state.description) {
+        element.find('.description').click();
+        element.find('.description-container textarea').val(state.description).height(state.descriptionHeight).focus();
+      }
+      if (state.note) {
+        element.find('.add-note').click();
+        element.find('.notes textarea').val(state.note).height(state.noteHeight).focus();
+      }
+      if (state.name) {
+        element.find('.title').click();
+        element.find('.title-container textarea').val(state.name).height(state.nameHeight).focus();
+      }
     }
   };
 
