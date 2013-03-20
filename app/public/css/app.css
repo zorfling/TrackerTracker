@@ -765,6 +765,24 @@ body.has-modal-dialog {
   display: none;
 }
 
+.story .summary .story-owner,
+.story .summary .story-pair {
+  color: #00335c;
+}
+
+.story .summary .story-owner:hover,
+.story .summary .story-pair:hover {
+  color: #00223d;
+}
+
+.story .summary .story-qa {
+  color: #0d9c00;
+}
+
+.story .summary .story-qa:hover {
+  color: #075700;
+}
+
 .story .details {
   margin: 0 -2px 0 -32px;
 }

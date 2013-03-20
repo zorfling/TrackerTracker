@@ -284,18 +284,21 @@ TT.View = (function () {
   };
 
   pub.drawStory = function (story, column) {
-    return drawStoryHelper(story, '.' + column.class_name + ' .column-bucket');
+    return pub.drawStoryHelper(story, '.' + column.class_name + ' .column-bucket');
   };
 
   pub.redrawStory = function (story) {
     $('#columns .story-' + story.id).each(function () {
-      drawStoryHelper(story, this, 'insertAfter');
+      pub.drawStoryHelper(story, this, 'insertAfter');
       $(this).remove();
     });
   };
 
-  function drawStoryHelper(story, target, insertMethod) {
+  pub.drawStoryHelper = function (story, target, insertMethod) {
+    var label_backup = story.labels;
+    story.labels = pub.labels_without_metadata(story.labels);
     var html = pub.render('story', story);
+    story.labels = label_backup;
     var element = pub.attach(html, target, insertMethod);
 
     var specialLabels = ['blocked'];
@@ -308,7 +311,17 @@ TT.View = (function () {
     pub.restoreStoryState(element, story);
 
     return element;
-  }
+  };
+
+  pub.labels_without_metadata = function (labels) {
+    var output = [];
+    $.each(labels, function (index, label) {
+      if (!/^\[.+\=.+\]$/.test(label)) {
+        output[output.length] = label;
+      }
+    });
+    return output;
+  };
 
   pub.drawStoryDetails = function (storyElement) {
     var story = TT.Model.Story.get({ id: storyElement.data('id') });

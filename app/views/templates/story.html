@@ -10,8 +10,11 @@
         <a href="#" class="story-owner" data-username="{{owned_by}}" data-click-handler="TT.UI.filterByUser" data-hover-handler="TT.UI.storyOwnerTooltip">{{initials}}</a>
       {{/initials}}
       {{#pair}}
-        / <a href="#" class="story-pair" data-username="{{pair}}" data-click-handler="TT.UI.filterByUser" data-hover-handler="TT.UI.storyOwnerTooltip">{{pair_initials}}</a>
+        / <a href="#" class="story-pair" data-username="{{pair}}" data-click-handler="TT.UI.filterByUser" data-hover-handler="TT.UI.storyPairTooltip">{{pair_initials}}</a>
       {{/pair}}
+      {{#qa}}
+        / <a href="#" class="story-qa" data-username="{{qa}}" data-click-handler="TT.UI.filterByUser" data-hover-handler="TT.UI.storyQATooltip">{{qa_initials}}</a>
+      {{/qa}}
       {{#labels}}
         <div class="tag" data-click-handler="TT.UI.filterByTag">{{.}}</div>
       {{/labels}}

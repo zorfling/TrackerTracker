@@ -118,7 +118,8 @@ TT.UI = (function () {
       type: 'user',
       fn: function (story) {
         return story.owned_by === name || story.requested_by === name ||
-          TT.Model.Story.hasTag(story, '[pair=' + name.toLowerCase() + ']');
+          TT.Model.Story.hasTag(story, '[pair=' + name.toLowerCase() + ']') ||
+          TT.Model.Story.hasTag(story, '[qa=' + name.toLowerCase() + ']');
       }
     });
     TT.View.drawStories();
@@ -713,28 +714,28 @@ TT.UI = (function () {
     return false;
   };
 
-  pub.storyProjectTooltip = function (e) {
-    if (!TT.Tooltip.isActive()) {
-      TT.Tooltip.open({
-        target: this,
-        delay: 300,
-        html: TT.View.render('tooltipContents', {
-          title: $(this).data('project-name')
-        })
-      });
-    }
-
-    return false;
+  pub.storyProjectTooltip = function () {
+    return pub.genericStoryTooltip(this, 'Project: ' + $(this).data('project-name'));
   };
 
-  pub.storyOwnerTooltip = function (e) {
+  pub.storyOwnerTooltip = function () {
+    return pub.genericStoryTooltip(this, 'Owner: ' + $(this).data('username'));
+  };
+
+  pub.storyPairTooltip = function () {
+    return pub.genericStoryTooltip(this, 'Pair: ' + $(this).data('username'));
+  };
+
+  pub.storyQATooltip = function () {
+    return pub.genericStoryTooltip(this, 'QA: ' + $(this).data('username'));
+  };
+
+  pub.genericStoryTooltip = function (context, title) {
     if (!TT.Tooltip.isActive()) {
       TT.Tooltip.open({
-        target: this,
-        delay: 300,
-        html: TT.View.render('tooltipContents', {
-          title: $(this).data('username')
-        })
+        target: context,
+        delay: 500,
+        html: TT.View.render('tooltipContents', { title: title })
       });
     }
 

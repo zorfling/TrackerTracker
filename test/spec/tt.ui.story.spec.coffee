@@ -149,6 +149,9 @@ describe "Story UI Interactions", ->
         beforeEach ->
           $('.story-' + id + ' .toggle-arrow').click()
 
+        it "should not show the pair initials in the summary labels", ->
+          expect($('.story-' + id + ' .summary').html()).not.toContain '[pair='
+
         it "should show the pair initials in the story summary", ->
           expect($('.story-' + id + ' .summary .story-pair').text()).toBe 'DVL'
 
@@ -230,6 +233,9 @@ describe "Story UI Interactions", ->
       also "I close the story", ->
         beforeEach ->
           $('.story-' + id + ' .toggle-arrow').click()
+
+        it "should not show the QA initials in the summary labels", ->
+          expect($('.story-' + id + ' .summary').html()).not.toContain '[qa='
 
         also "I re-open the story", ->
           beforeEach ->

@@ -309,22 +309,21 @@ TT.Model = (function () {
   };
 
   pub.Story.decorateStoryWithMetadata = function (story) {
-    var qa = pub.Story.getMetadata(story, 'qa');
-    qa = pub.User.get(function (user) {
-      return user.name.toLowerCase() === qa;
-    });
-    if (qa) {
-      story.qa = qa.name;
+    function decorate(story, key) {
+      var metadata = pub.Story.getMetadata(story, key);
+      var user = pub.User.get(function (user) {
+        return user.name.toLowerCase() === metadata;
+      });
+      if (user) {
+        story[key] = user.name;
+        story[key + '_initials'] = user.initials;
+      }
+
+      return story;
     }
 
-    var pair = pub.Story.getMetadata(story, 'pair');
-    pair = pub.User.get(function (user) {
-      return user.name.toLowerCase() === pair;
-    });
-    if (pair) {
-      story.pair = pair.name;
-      story.pair_initials = pair.initials;
-    }
+    story = decorate(story, 'qa');
+    story = decorate(story, 'pair');
 
     return story;
   };

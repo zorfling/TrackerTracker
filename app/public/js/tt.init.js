@@ -300,7 +300,8 @@ TT.Init = (function () {
         if (filter.type === 'user') {
           filter.fn = function (story) {
             return story.owned_by === filter.name || story.requested_by === filter.name ||
-              TT.Model.Story.hasTag(story, '[pair=' + name.toLowerCase() + ']');
+              TT.Model.Story.hasTag(story, '[pair=' + name.toLowerCase() + ']') ||
+              TT.Model.Story.hasTag(story, '[qa=' + name.toLowerCase() + ']');
           };
           TT.Model.Filter.add(filter);
         } else if (filter.type === 'tag') {
