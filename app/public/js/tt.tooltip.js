@@ -31,8 +31,9 @@ TT.Tooltip = (function () {
 
     $('body').bind('mousemove.Tooltip', function (e) {
       if (e.pageX < bounds.left || e.pageX > bounds.right || e.pageY < bounds.top || e.pageY > bounds.bottom) {
+        clearTimeout(self.timeout);
         $('body').unbind('.Tooltip');
-        self.tooltip.fadeOut(80, function () {
+        self.tooltip.fadeOut(60, function () {
           self.tooltip.remove();
           self.active = false;
           self.tooltip = null;
@@ -49,10 +50,11 @@ TT.Tooltip = (function () {
     if (!self.active) {
       self.active = true;
       self.target = $(options.target);
-      setTimeout(function () {
-        self.tooltip = TT.View.attach(TT.View.render('tooltip', { html: options.html }), 'body');
-        setPosition();
-        setClosingBoundaries();
+      self.tooltip = TT.View.attach(TT.View.render('tooltip', { html: options.html }), 'body').hide();
+      setPosition();
+      setClosingBoundaries();
+      self.timeout = setTimeout(function () {
+        self.tooltip.fadeIn(60);
       }, options.delay || 0);
     }
   };
