@@ -76,7 +76,7 @@ exports.getTeamcityBuildStatus = function (req, res) {
     var command = 'curl -u ' + req.cookies[TEAMCITY_USERNAME_COOKIE] + ':' +
       req.cookies[TEAMCITY_PASSWORD_COOKIE] + ' -X GET "' +
       req.cookies[TEAMCITY_HOSTNAME_COOKIE] + '/searchResults.html?query=' +
-      req.query.storyID + '&popupMode=true"';
+      req.query.storyID + '&popupMode=true&byTime=true"';
 
     exec(command, function(err, stdout, stderr) {
       res.send(stdout || '');
