@@ -28,6 +28,13 @@ TT.UI = (function () {
     return false;
   };
 
+  pub.toggleFullscreen = function () {
+    $('body').toggleClass('fullscreen');
+    TT.View.updateColumnDimensions();
+
+    return false;
+  };
+
   pub.selectProject = function () {
     $(this).toggleClass('inactive');
     TT.View.drawStories();
