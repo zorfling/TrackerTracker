@@ -1,6 +1,8 @@
 var TT = TT || {};
 TT.Ajax = (function () {
 
+  var TIMEOUT = 60 * 1000;
+
   var pub = {};
   var serverRequests = 0;
   var serverResponses = 0;
@@ -11,7 +13,7 @@ TT.Ajax = (function () {
   pub.start = function () {
     serverRequests++;
     $('body').addClass('ajaxRunning');
-    timeouts[serverRequests] = setTimeout(pub.timeout, 10000);
+    timeouts[serverRequests] = setTimeout(pub.timeout, TIMEOUT);
   };
 
   pub.end = function () {
