@@ -1685,6 +1685,10 @@ body.fullscreen .story {
   padding: 11px 10px 12px 18px;
 }
 
+body.fullscreen .expanded-story {
+  padding: 6px 6px 6px 38px;
+}
+
 body.fullscreen .story .toggle-arrow {
   left: 4px;
   top: 14px;
