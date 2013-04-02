@@ -995,37 +995,45 @@ body.has-modal-dialog {
 }
 
 .column-started .story,
-.column-inqa .story,
-.column-passedqa .story,
-.column-delivered .story,
-.story.started,
-.story.inqa,
-.story.passedqa,
-.story.finished,
-.story.delivered {
+.story.started {
   background-color: #f3f3d1;
 }
 
 .column-started .story:hover,
+.story.started:hover {
+  background-color: #fafaec;
+}
+
+.column-finished .story,
+.column-inqa .story,
+.column-passedqa .story,
+.column-delivered .story,
+.story.finished,
+.story.inqa,
+.story.passedqa,
+.story.delivered {
+  background-color: #fff2d5;
+}
+
+.column-finished .story:hover,
 .column-inqa .story:hover,
 .column-passedqa .story:hover,
 .column-delivered .story:hover,
-.story.started:hover,
+.story.finished:hover,
 .story.inqa:hover,
 .story.passedqa:hover,
-.story.finished:hover,
 .story.delivered:hover {
-  background-color: #fafaec;
+  background-color: #fff8e8;
 }
 
 .column-accepted .story,
 .story.accepted {
-  background-color: #daebcf;
+  background-color: #d6f0be;
 }
 
 .column-accepted .story:hover,
 .story.accepted:hover {
-  background-color: #edf7e7;
+  background-color: #e9f5de;
 }
 
 .column-icebox .story {
